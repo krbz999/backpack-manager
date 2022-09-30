@@ -16,7 +16,7 @@ export class BackpackManager extends FormApplication {
   }
 
   get id() {
-    return `${MODULE}-${this.object.id}`;
+    return `${MODULE}-${this.object.backpack.id}`;
   }
 
   get stowed() {
