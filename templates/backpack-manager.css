@@ -1,0 +1,45 @@
+form.backpack-manager header {
+  height: 28px;
+  font-weight: bold;
+  border: 1px solid var(--color-border-light-tertiary);
+  background: rgba(0, 0, 0, 0.1);
+  display: grid;
+  align-content: space-evenly;
+  font-size: 16px;
+  padding-left: 5px;
+}
+
+form.backpack-manager .stowed,
+form.backpack-manager .inventory {
+  display: block;
+  padding: 10px;
+  overflow-y: scroll;
+  max-height: 300px;
+  min-height: 300px;
+}
+
+form.backpack-manager .stowed .item,
+form.backpack-manager .inventory .item {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+}
+
+form.backpack-manager .item .functions {
+  display: flex;
+}
+
+form.backpack-manager .item .functions .quantities {
+  margin-right: 1em;
+}
+
+form.backpack-manager .item .functions .quantities .current {
+  max-width: 2em;
+  text-align: center;
+  height: 100%;
+  padding: 0;
+}
+
+form.backpack-manager .item .functions>a {
+  padding: 0 3px;
+}
