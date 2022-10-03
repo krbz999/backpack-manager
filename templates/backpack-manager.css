@@ -6,40 +6,65 @@ form.backpack-manager header {
   display: grid;
   align-content: space-evenly;
   font-size: 16px;
-  padding-left: 5px;
+  padding: 0 0 0 0.5em;
+  border-radius: 3px;
 }
 
-form.backpack-manager .stowed,
-form.backpack-manager .inventory {
-  display: block;
-  padding: 10px;
-  overflow-y: scroll;
+form.backpack-manager .stowed .stowed-content,
+form.backpack-manager .inventory .inventory-content {
+  overflow-y: auto;
   max-height: 300px;
   min-height: 300px;
 }
 
-form.backpack-manager .stowed .item,
-form.backpack-manager .inventory .item {
+form.backpack-manager section:last-of-type {
+  border-bottom: 1px solid var(--color-border-light-tertiary);
+}
+
+form.backpack-manager .stowed-content .item,
+form.backpack-manager .inventory-content .item {
   display: flex;
   justify-content: space-between;
-  padding: 3px 0;
+  padding: 0.25em;
+  border-radius: 4px;
+  font-size: 1.1em;
+  gap: 1em;
+}
+form.backpack-manager .stowed-content .item:nth-child(2n-1),
+form.backpack-manager .inventory-content .item:nth-child(2n-1) {
+  background: #11643b21;
+}
+
+form.backpack-manager .item .item-details {
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+form.backpack-manager .item img {
+  border: none;
+  vertical-align: bottom;
+  height: 1.3em;
 }
 
 form.backpack-manager .item .functions {
   display: flex;
-}
-
-form.backpack-manager .item .functions .quantities {
-  margin-right: 1em;
+  white-space: nowrap;
+  gap: 1em;
+  min-width: fit-content;
 }
 
 form.backpack-manager .item .functions .quantities .current {
   max-width: 2em;
   text-align: center;
   height: 100%;
-  padding: 0;
+  border-radius: 6px;
 }
 
-form.backpack-manager .item .functions>a {
-  padding: 0 3px;
+form.backpack-manager .button-section {
+  margin-top: 1em;
+}
+
+[name="flags.backpack-manager.containerActorUuid"]::placeholder {
+  font-style: italic;
 }

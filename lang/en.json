@@ -1,5 +1,6 @@
 {
   "BACKPACK_MANAGER": {
+    "PLACE_UUID_HERE": "Place the uuid of an actor here.",
     "NO_ACTOR_FROM_UUID": "A uuid was found in {item}, but the corresponding actor was not.",
     "NOT_OWNER": "You do not have sufficient ownership over the container actor.",
     "BACKPACK_IS_SELF": "You cannot use yourself as a backpack.",
