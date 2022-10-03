@@ -61,13 +61,17 @@ export class BackpackManager extends FormApplication {
     return data;
   }
 
+  async _updateObject(...T){
+    return;
+  }
+
   activateListeners(html) {
     super.activateListeners(html);
     html[0].addEventListener("click", async (event) => {
       const a = event.target.closest("a");
       if (!a) return;
       const type = a.dataset.type;
-      const uuid = a.closest(".item").firstElementChild.dataset.uuid;
+      const uuid = a.closest(".item").querySelector(".item-details").dataset.uuid;
       const item = fromUuidSync(uuid);
       const qtyField = a.closest(".item").querySelector(".current");
       const max = qtyField ? Number(qtyField.dataset.max) : 1;

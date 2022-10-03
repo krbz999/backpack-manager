@@ -7,11 +7,13 @@ Hooks.on("renderItemSheet", ({ object: item }, html) => {
   const weightless = html[0].querySelector(selector);
   const label = weightless.closest("label");
 
+  const labelText = game.i18n.localize("DND5E.ItemTypeBackpack");
+  const title = game.i18n.localize("BACKPACK_MANAGER.PLACE_UUID_HERE");
   const name = `flags.${MODULE}.containerActorUuid`;
   const value = item.getFlag(MODULE, "containerActorUuid") ?? "";
   const placeholder = `Actor.a1s2d3f4g5h6j7k8...`;
   const template = `
-  <label>Backpack:</label>
+  <label title="${title}">${labelText}:</label>
   <input type="text" name="${name}" value="${value}" placeholder="${placeholder}">`;
   const DIV = document.createElement("DIV");
   DIV.innerHTML = template;
@@ -63,7 +65,7 @@ Hooks.on("dnd5e.preUseItem", (item) => {
 });
 
 Hooks.once("setup", () => {
-  Handlebars.registerHelper("checkqty", function (qty) {
+  Handlebars.registerHelper("backpackManagerCheckqty", function (qty) {
     return qty > 1;
   });
 });
