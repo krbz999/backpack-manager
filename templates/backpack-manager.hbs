@@ -1,30 +1,30 @@
 <form class="backpack-manager">
-  <header title="{{localize " BACKPACK_MANAGER.STOW_HEADER"}}">
-    <div>{{localize "BACKPACK_MANAGER.STOWED"}}: {{bag}} ({{value}} / {{max}})</div>
+  <header title="{{localize 'BACKPACK_MANAGER.STOW_HEADER'}}">
+    <div>{{localize 'BACKPACK_MANAGER.STOWED'}}: {{bag}} ({{value}} / {{max}})</div>
   </header>
   <div class="stowed">
     {{#each stowed as |item|}}
     <div class="item">
-      <a data-uuid="{{item.uuid}}" title="{{localize " BACKPACK_MANAGER.SHOW"}}">
+      <a data-uuid="{{item.uuid}}" title="{{localize 'BACKPACK_MANAGER.SHOW'}}">
         {{item.name}} {{#if (checkqty item.system.quantity)}}({{item.system.quantity}}){{/if}}
       </a>
       <div class="functions">
         {{#if (checkqty item.system.quantity)}}
         <div class="quantities">
-          <a data-type="less" title="{{localize " BACKPACK_MANAGER.LESS"}}">
+          <a data-type="less" title="{{localize 'BACKPACK_MANAGER.LESS'}}">
             <i class="fa-solid fa-arrow-left"></i>
           </a>
-          <input type="number" title="{{localize " BACKPACK_MANAGER.VALUE"}}" class="current"
+          <input type="number" title="{{localize 'BACKPACK_MANAGER.VALUE'}}" class="current"
             value="{{item.system.quantity}}" data-max="{{item.system.quantity}}" disabled>
-          <a data-type="more" title="{{localize " BACKPACK_MANAGER.MORE"}}">
+          <a data-type="more" title="{{localize 'BACKPACK_MANAGER.MORE'}}">
             <i class="fa-solid fa-arrow-right"></i>
           </a>
         </div>
         {{/if}}
-        <a data-type="retrieve" title="{{localize " BACKPACK_MANAGER.RETRIEVE"}}">
+        <a data-type="retrieve" title="{{localize 'BACKPACK_MANAGER.RETRIEVE'}}">
           <i class="fa-solid fa-arrow-right-arrow-left"></i>
         </a>
-        <a data-type="delete" title="{{localize " BACKPACK_MANAGER.DELETE"}}">
+        <a data-type="delete" title="{{localize 'BACKPACK_MANAGER.DELETE'}}">
           <i class="fa-solid fa-trash"></i>
         </a>
       </div>
@@ -32,29 +32,29 @@
     {{/each}}
   </div>
 
-  <header title="{{localize " BACKPACK_MANAGER.INVENTORY_HEADER"}}">
-    <div>{{localize "BACKPACK_MANAGER.INVENTORY"}}: {{actor}}</div>
+  <header title="{{localize 'BACKPACK_MANAGER.INVENTORY_HEADER'}}">
+    <div>{{localize 'BACKPACK_MANAGER.INVENTORY'}}: {{actor}}</div>
   </header>
   <div class="inventory">
     {{#each items as |item|}}
     <div class="item">
-      <a data-uuid="{{item.uuid}}" title="{{localize " BACKPACK_MANAGER.SHOW"}}">
+      <a data-uuid="{{item.uuid}}" title="{{localize 'BACKPACK_MANAGER.SHOW'}}">
         {{item.name}} {{#if (checkqty item.system.quantity)}}({{item.system.quantity}}){{/if}}
       </a>
       <div class="functions">
         {{#if (checkqty item.system.quantity)}}
         <div class="quantities">
-          <a data-type="less" title="{{localize " BACKPACK_MANAGER.LESS"}}">
+          <a data-type="less" title="{{localize 'BACKPACK_MANAGER.LESS'}}">
             <i class="fa-solid fa-arrow-left"></i>
           </a>
-          <input type="number" title="{{localize " BACKPACK_MANAGER.VALUE"}}" class="current"
+          <input type="number" title="{{localize 'BACKPACK_MANAGER.VALUE'}}" class="current"
             value="{{item.system.quantity}}" data-max="{{item.system.quantity}}" disabled>
-          <a data-type="more" title="{{localize " BACKPACK_MANAGER.MORE"}}">
+          <a data-type="more" title="{{localize 'BACKPACK_MANAGER.MORE'}}">
             <i class="fa-solid fa-arrow-right"></i>
           </a>
         </div>
         {{/if}}
-        <a data-type="stow" title="{{localize " BACKPACK_MANAGER.STOW"}}">
+        <a data-type="stow" title="{{localize 'BACKPACK_MANAGER.STOW'}}">
           <i class="fa-solid fa-box-archive"></i>
         </a>
       </div>
