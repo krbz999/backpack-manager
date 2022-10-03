@@ -9,7 +9,7 @@ Hooks.on("renderItemSheet", ({ object: item }, html) => {
 
   const name = `flags.${MODULE}.containerActorUuid`;
   const value = item.getFlag(MODULE, "containerActorUuid") ?? "";
-  const placeholder = `<em>Actor.a1s2d3f4g5h6j7k8...</em>`;
+  const placeholder = `Actor.a1s2d3f4g5h6j7k8...`;
   const template = `
   <label>Backpack:</label>
   <input type="text" name="${name}" value="${value}" placeholder="${placeholder}">`;
