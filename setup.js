@@ -3,14 +3,16 @@ import { BackpackManager } from "./scripts/backpack-manager.mjs";
 
 Hooks.on("renderItemSheet", ({ object: item }, html) => {
   if (item.type !== "backpack") return;
-  const name = "[name='system.capacity.weightless']";
-  const weightless = html[0].querySelector(name);
+  const selector = "[name='system.capacity.weightless']";
+  const weightless = html[0].querySelector(selector);
   const label = weightless.closest("label");
 
+  const name = `flags.${MODULE}.containerActorUuid`;
   const value = item.getFlag(MODULE, "containerActorUuid") ?? "";
+  const placeholder = `<em>Actor.a1s2d3f4g5h6j7k8...</em>`;
   const template = `
   <label>Backpack:</label>
-  <input type="text" name="flags.${MODULE}.containerActorUuid" value="${value}" placeholder="Backpack actor uuid">`;
+  <input type="text" name="${name}" value="${value}" placeholder="${placeholder}">`;
   const DIV = document.createElement("DIV");
   DIV.innerHTML = template;
   label.after(...DIV.children);
@@ -26,6 +28,12 @@ Hooks.on("dnd5e.preUseItem", (item) => {
   if (!backpack) {
     const string = "BACKPACK_MANAGER.NO_ACTOR_FROM_UUID";
     const locale = game.i18n.format(string, { item: item.name });
+    ui.notifications.warn(locale);
+    return;
+  }
+  if (backpack === item.parent) {
+    const string = "BACKPACK_MANAGER.BACKPACK_IS_SELF";
+    const locale = game.i18n.localize(string);
     ui.notifications.warn(locale);
     return;
   }
