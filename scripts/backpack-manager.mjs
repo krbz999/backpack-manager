@@ -1,4 +1,5 @@
 import { MODULE } from "./constants.mjs";
+import { isValidItem } from "./helpers.mjs";
 
 export class BackpackManager extends FormApplication {
   constructor(object, options) {
@@ -20,30 +21,16 @@ export class BackpackManager extends FormApplication {
   }
 
   get stowed() {
-    return this.bag.items.filter(({ type, system }) => {
-      return ![
-        "class",
-        "subclass",
-        "feat",
-        "spell",
-        "background",
-        "backpack"
-      ].includes(type) && system.quantity > 0;
+    return this.bag.items.filter((item) => {
+      return isValidItem(item);
     }).sort((a, b) => {
       return a.name.localeCompare(b.name);
     });
   }
 
   get items() {
-    return this.actor.items.filter(({ type, system }) => {
-      return ![
-        "class",
-        "subclass",
-        "feat",
-        "spell",
-        "background",
-        "backpack"
-      ].includes(type) && system.quantity > 0;
+    return this.actor.items.filter((item) => {
+      return isValidItem(item);
     }).sort((a, b) => {
       return a.name.localeCompare(b.name);
     });
@@ -55,7 +42,7 @@ export class BackpackManager extends FormApplication {
   }
 
   get actor() {
-    return this.object.actor
+    return this.object.actor;
   }
 
   get bag() {

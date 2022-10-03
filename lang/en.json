@@ -2,6 +2,7 @@
   "BACKPACK_MANAGER": {
     "NO_ACTOR_FROM_UUID": "A uuid was found in {item}, but the corresponding actor was not.",
     "NOT_OWNER": "You do not have sufficient ownership over the container actor.",
+    "BACKPACK_IS_SELF": "You cannot use yourself as a backpack.",
     "TITLE": "{actor}'s {bag}",
     "STOW_HEADER": "The container and how much it can contain.",
     "STOWED": "Stowed",
