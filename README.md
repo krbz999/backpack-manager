@@ -10,7 +10,7 @@ With this module, you can designate an actor in the sidebar to be a 'container a
 - Give the player ownership of an actor that serves as the container.
 - Copy the ID of the container actor (click the book icon in its header).
 - Edit the Container item on the player character and paste the uuid of the actor in the new field that has been added.
-- The uuid is the id of the container actor, prepended with `Actor.`. For example `Actor.5hfpenhg8fh49Ef5`.
+- The uuid is the id of the container actor, prepended with `Actor.`. For example `Actor.5hfpenhg8fh49Ef5`...
 
 Now when the player uses the Container item, it will open an interface to stow or retrieve items. Hover over any component of the interface for a tooltip that shows what they do.
 - Stow or retrieve an item, or stack of items, by clicking the box icon or the double arrow icon.
