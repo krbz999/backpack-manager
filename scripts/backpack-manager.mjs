@@ -1,5 +1,5 @@
 import { MODULE } from "./constants.mjs";
-import { isValidItem } from "./helpers.mjs";
+import { isValidItem, setSystemSpecificValues, updateSystemSpecificQuantity } from "./helpers.mjs";
 
 export class BackpackManager extends FormApplication {
   constructor(object, options) {
@@ -51,17 +51,22 @@ export class BackpackManager extends FormApplication {
 
   async getData() {
     const data = await super.getData();
-    data.stowed = this.stowed;
     data.bag = this.bag.name;
-    data.items = this.items;
     data.actor = this.actor.name;
-    data.value = this.bag.system.attributes.encumbrance.value;
-    data.max = this.max;
+    data.bagMax = this.max;
+
+    if (game.system.id === "dnd5e") {
+      data.bagValue = this.bag.system.attributes.encumbrance.value;
+      data.items = this.items.map(item => ({ item, quantity: item.system.quantity }));
+      data.stowed = this.stowed.map(item => ({ item, quantity: item.system.quantity }));
+      data.actorValue = this.actor.system.attributes.encumbrance.value;
+      data.actorMax = this.actor.system.attributes.encumbrance.max;
+    }
 
     return data;
   }
 
-  async _updateObject(...T){
+  async _updateObject(...T) {
     return;
   }
 
@@ -95,17 +100,14 @@ export class BackpackManager extends FormApplication {
       else if (type === "retrieve") {
         // move item from this actor to the owner.
         const itemData = item.toObject();
-        itemData.system.quantity = value;
-        if (itemData.system.equipped) itemData.system.equipped = false;
-        const { ATTUNED, REQUIRED } = CONFIG.DND5E.attunementTypes;
-        if (itemData.system.attunement === ATTUNED) {
-          itemData.system.attunement = REQUIRED;
-        }
+        setSystemSpecificValues(itemData, {
+          quantity: value
+        });
 
         const [c] = await this.actor.createEmbeddedDocuments("Item", [itemData]);
         if (c) {
           if (value === max) await item.delete();
-          else await item.update({ "system.quantity": max - value });
+          else await updateSystemSpecificQuantity(item, max, value);
         }
       }
 
@@ -117,17 +119,14 @@ export class BackpackManager extends FormApplication {
       else if (type === "stow") {
         // stow item in bag.
         const itemData = item.toObject();
-        itemData.system.quantity = value;
-        if (itemData.system.equipped) itemData.system.equipped = false;
-        const { ATTUNED, REQUIRED } = CONFIG.DND5E.attunementTypes;
-        if (itemData.system.attunement === ATTUNED) {
-          itemData.system.attunement = REQUIRED;
-        }
+        setSystemSpecificValues(itemData, {
+          quantity: value
+        });
 
         const [c] = await this.bag.createEmbeddedDocuments("Item", [itemData]);
         if (c) {
           if (value === max) await item.delete();
-          else await item.update({ "system.quantity": max - value });
+          else await updateSystemSpecificQuantity(item, max, value);
         }
       }
     });

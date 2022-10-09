@@ -1,25 +1,26 @@
 <form class="backpack-manager">
   <section class="stowed">
     <header class="stowed-header" title="{{localize 'BACKPACK_MANAGER.STOW_HEADER'}}">
-      {{localize 'BACKPACK_MANAGER.STOWED'}}: {{bag}} ({{value}} / {{max}})
+      <div class="header-name">{{localize 'BACKPACK_MANAGER.STOWED'}}: {{bag}}</div>
+      <div class="header-encumbrance">({{bagValue}} / {{bagMax}})</div>
     </header>
     <div class="stowed-content">
       {{#each stowed as |item|}}
       <div class="item">
-        <div class="item-details" data-uuid="{{item.uuid}}">
-          <img src="{{item.img}}">
+        <div class="item-details" data-uuid="{{item.item.uuid}}">
+          <img src="{{item.item.img}}">
           <a title="{{localize 'BACKPACK_MANAGER.SHOW'}}">
-            {{item.name}} {{#if (backpackManagerCheckqty item.system.quantity)}}({{item.system.quantity}}){{/if}}
+            {{item.item.name}} {{#if (backpackManagerCheckqty item.quantity)}}({{item.quantity}}){{/if}}
           </a>
         </div>
         <div class="functions">
-          {{#if (backpackManagerCheckqty item.system.quantity)}}
+          {{#if (backpackManagerCheckqty item.quantity)}}
           <div class="quantities">
             <a data-type="less" title="{{localize 'BACKPACK_MANAGER.LESS'}}">
               <i class="fa-solid fa-arrow-left"></i>
             </a>
-            <input type="number" title="{{localize 'BACKPACK_MANAGER.VALUE'}}" class="current"
-              value="{{item.system.quantity}}" data-max="{{item.system.quantity}}" disabled>
+            <input type="number" title="{{localize 'BACKPACK_MANAGER.VALUE'}}" class="current" value="{{item.quantity}}"
+              data-max="{{item.quantity}}" disabled>
             <a data-type="more" title="{{localize 'BACKPACK_MANAGER.MORE'}}">
               <i class="fa-solid fa-arrow-right"></i>
             </a>
@@ -39,25 +40,26 @@
 
   <section class="inventory">
     <header class="inventory-header" title="{{localize 'BACKPACK_MANAGER.INVENTORY_HEADER'}}">
-      {{localize 'BACKPACK_MANAGER.INVENTORY'}}: {{actor}}
+      <div class="header-name">{{localize 'BACKPACK_MANAGER.INVENTORY'}}: {{actor}}</div>
+      <div class="header-encumbrance">({{actorValue}} / {{actorMax}})</div>
     </header>
     <div class="inventory-content">
       {{#each items as |item|}}
       <div class="item">
-        <div class="item-details" data-uuid="{{item.uuid}}">
-          <img src="{{item.img}}">
+        <div class="item-details" data-uuid="{{item.item.uuid}}">
+          <img src="{{item.item.img}}">
           <a title="{{localize 'BACKPACK_MANAGER.SHOW'}}">
-            {{item.name}} {{#if (backpackManagerCheckqty item.system.quantity)}}({{item.system.quantity}}){{/if}}
+            {{item.item.name}} {{#if (backpackManagerCheckqty item.quantity)}}({{item.quantity}}){{/if}}
           </a>
         </div>
         <div class="functions">
-          {{#if (backpackManagerCheckqty item.system.quantity)}}
+          {{#if (backpackManagerCheckqty item.quantity)}}
           <div class="quantities">
             <a data-type="less" title="{{localize 'BACKPACK_MANAGER.LESS'}}">
               <i class="fa-solid fa-arrow-left"></i>
             </a>
-            <input type="number" title="{{localize 'BACKPACK_MANAGER.VALUE'}}" class="current"
-              value="{{item.system.quantity}}" data-max="{{item.system.quantity}}" disabled>
+            <input type="number" title="{{localize 'BACKPACK_MANAGER.VALUE'}}" class="current" value="{{item.quantity}}"
+              data-max="{{item.quantity}}" disabled>
             <a data-type="more" title="{{localize 'BACKPACK_MANAGER.MORE'}}">
               <i class="fa-solid fa-arrow-right"></i>
             </a>
