@@ -45,13 +45,15 @@ export function setup_dnd5e() {
       return app.constructor.name === "BackpackManager";
     });
     const actor = item.parent;
+    // backpack: the actor acting as the backpack.
+    // actor: the actor stowing or retriving items.
+    // item: the item linked to the backpack.
     if (render) {
-      const pack = new BackpackManager({ backpack, actor }, {
+      const pack = new BackpackManager({ backpack, actor, item }, {
         title: game.i18n.format("BACKPACK_MANAGER.TITLE", {
           actor: item.parent.name,
           bag: backpack.name
-        }),
-        max: item.system.capacity.value
+        })
       });
       if (pack.isOwner) pack.render(true);
       else {

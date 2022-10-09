@@ -4,7 +4,7 @@ import { isValidItem, setSystemSpecificValues, updateSystemSpecificQuantity } fr
 export class BackpackManager extends FormApplication {
   constructor(object, options) {
     super(object, options);
-    this.max = options.max;
+    //this.max = options.max;
   }
 
   static get defaultOptions() {
@@ -49,14 +49,18 @@ export class BackpackManager extends FormApplication {
     return this.object.backpack;
   }
 
+  get item() {
+    return this.object.item;
+  }
+
   async getData() {
     const data = await super.getData();
     data.bag = this.bag.name;
     data.actor = this.actor.name;
-    data.bagMax = this.max;
 
     if (game.system.id === "dnd5e") {
       data.bagValue = this.bag.system.attributes.encumbrance.value;
+      data.bagMax = this.item.system.capacity.value;
       data.items = this.items.map(item => ({ item, quantity: item.system.quantity }));
       data.stowed = this.stowed.map(item => ({ item, quantity: item.system.quantity }));
       data.actorValue = this.actor.system.attributes.encumbrance.value;
