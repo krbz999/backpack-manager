@@ -4,7 +4,6 @@ import { isValidItem, setSystemSpecificValues, updateSystemSpecificQuantity } fr
 export class BackpackManager extends FormApplication {
   constructor(object, options) {
     super(object, options);
-    //this.max = options.max;
   }
 
   static get defaultOptions() {
