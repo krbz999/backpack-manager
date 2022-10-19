@@ -26,6 +26,11 @@ export function isValidItem(item) {
   return false;
 }
 
+/**
+ * Change system specific values when an item is stowed or retrieved.
+ * itemData is the item.toObject() and 'data' is any extra values needed.
+ * (currently just the new quantity)
+ */
 export function setSystemSpecificValues(itemData, data) {
   if (game.system.id === "dnd5e") {
     itemData.system.quantity = data.quantity;
@@ -37,6 +42,9 @@ export function setSystemSpecificValues(itemData, data) {
   }
 }
 
+/**
+ * Update the quantity of the item in the system-specific way.
+ */
 export async function updateSystemSpecificQuantity(item, max, value) {
   if (game.system.id === "dnd5e") {
     return item.update({ "system.quantity": max - value });
