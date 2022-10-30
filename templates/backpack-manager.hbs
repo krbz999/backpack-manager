@@ -1,37 +1,40 @@
 <form class="backpack-manager">
   <section class="stowed">
-    <header class="stowed-header" title="{{localize 'BACKPACK_MANAGER.STOW_HEADER'}}">
+    {{#unless hideOwnInventory}}
+    <header class="stowed-header" data-tooltip="{{localize 'BACKPACK_MANAGER.STOW_HEADER'}}">
       <div class="header-name">{{localize 'BACKPACK_MANAGER.STOWED'}}: {{bag}}</div>
       <div class="header-encumbrance">({{bagValue}} / {{bagMax}})</div>
     </header>
+    {{/unless}}
     <div class="stowed-content">
       {{#each stowed as |item|}}
       <div class="item">
         <div class="item-details" data-uuid="{{item.item.uuid}}">
           <img src="{{item.item.img}}">
-          <a title="{{localize 'BACKPACK_MANAGER.SHOW'}}">
+          <a data-tooltip="{{localize 'BACKPACK_MANAGER.SHOW'}}">
             {{item.item.name}} {{#if (backpackManagerCheckqty item.quantity)}}({{item.quantity}}){{/if}}
           </a>
         </div>
         <div class="functions">
           {{#if (backpackManagerCheckqty item.quantity)}}
           <div class="quantities">
-            <a data-type="less" title="{{localize 'BACKPACK_MANAGER.LESS'}}">
+            <a data-type="less" data-tooltip="{{localize 'BACKPACK_MANAGER.LESS'}}">
               <i class="fa-solid fa-arrow-left"></i>
             </a>
-            <input type="number" title="{{localize 'BACKPACK_MANAGER.VALUE'}}" class="current" value="{{item.quantity}}"
-              data-max="{{item.quantity}}" disabled>
-            <a data-type="more" title="{{localize 'BACKPACK_MANAGER.MORE'}}">
+            <input type="number" data-tooltip="{{localize 'BACKPACK_MANAGER.VALUE'}}" class="current" value="{{item.quantity}}" data-max="{{item.quantity}}" disabled>
+            <a data-type="more" data-tooltip="{{localize 'BACKPACK_MANAGER.MORE'}}">
               <i class="fa-solid fa-arrow-right"></i>
             </a>
           </div>
           {{/if}}
-          <a data-type="retrieve" title="{{localize 'BACKPACK_MANAGER.RETRIEVE'}}">
+          <a data-type="retrieve" data-tooltip="{{localize 'BACKPACK_MANAGER.RETRIEVE'}}">
             <i class="fa-solid fa-arrow-right-arrow-left"></i>
           </a>
-          <a data-type="delete" title="{{localize 'BACKPACK_MANAGER.DELETE'}}">
+          {{#unless hideOwnInventory}}
+          <a data-type="delete" data-tooltip="{{localize 'BACKPACK_MANAGER.DELETE'}}">
             <i class="fa-solid fa-trash"></i>
           </a>
+          {{/unless}}
         </div>
       </div>
       {{/each}}
@@ -40,7 +43,7 @@
 
   {{#unless hideOwnInventory}}
   <section class="inventory">
-    <header class="inventory-header" title="{{localize 'BACKPACK_MANAGER.INVENTORY_HEADER'}}">
+    <header class="inventory-header" data-tooltip="{{localize 'BACKPACK_MANAGER.INVENTORY_HEADER'}}">
       <div class="header-name">{{localize 'BACKPACK_MANAGER.INVENTORY'}}: {{actor}}</div>
       <div class="header-encumbrance">({{actorValue}} / {{actorMax}})</div>
     </header>
@@ -49,24 +52,23 @@
       <div class="item">
         <div class="item-details" data-uuid="{{item.item.uuid}}">
           <img src="{{item.item.img}}">
-          <a title="{{localize 'BACKPACK_MANAGER.SHOW'}}">
+          <a data-tooltip="{{localize 'BACKPACK_MANAGER.SHOW'}}">
             {{item.item.name}} {{#if (backpackManagerCheckqty item.quantity)}}({{item.quantity}}){{/if}}
           </a>
         </div>
         <div class="functions">
           {{#if (backpackManagerCheckqty item.quantity)}}
           <div class="quantities">
-            <a data-type="less" title="{{localize 'BACKPACK_MANAGER.LESS'}}">
+            <a data-type="less" data-tooltip="{{localize 'BACKPACK_MANAGER.LESS'}}">
               <i class="fa-solid fa-arrow-left"></i>
             </a>
-            <input type="number" title="{{localize 'BACKPACK_MANAGER.VALUE'}}" class="current" value="{{item.quantity}}"
-              data-max="{{item.quantity}}" disabled>
-            <a data-type="more" title="{{localize 'BACKPACK_MANAGER.MORE'}}">
+            <input type="number" data-tooltip="{{localize 'BACKPACK_MANAGER.VALUE'}}" class="current" value="{{item.quantity}}" data-max="{{item.quantity}}" disabled>
+            <a data-type="more" data-tooltip="{{localize 'BACKPACK_MANAGER.MORE'}}">
               <i class="fa-solid fa-arrow-right"></i>
             </a>
           </div>
           {{/if}}
-          <a data-type="stow" title="{{localize 'BACKPACK_MANAGER.STOW'}}">
+          <a data-type="stow" data-tooltip="{{localize 'BACKPACK_MANAGER.STOW'}}">
             <i class="fa-solid fa-box-archive"></i>
           </a>
         </div>
