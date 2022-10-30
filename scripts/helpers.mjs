@@ -1,3 +1,4 @@
+import { BackpackManager } from "./backpack-manager.mjs";
 import { MODULE } from "./constants.mjs";
 
 /**
