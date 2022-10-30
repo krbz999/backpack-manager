@@ -50,3 +50,20 @@ export async function updateSystemSpecificQuantity(item, max, value) {
     return item.update({ "system.quantity": max - value });
   }
 }
+
+export function _renderBackpackManager(browsingActor, backpackActor) {
+  const render = !Object.values(backpackActor.apps).some(app => {
+    return app.constructor.name === "BackpackManager";
+  });
+  if (!render) return null;
+  return new BackpackManager({
+    backpack: backpackActor,
+    actor: browsingActor,
+    item: null
+  }, {
+    title: game.i18n.format("BACKPACK_MANAGER.TITLE", {
+      actor: browsingActor.name,
+      bag: backpackActor.name
+    })
+  }).render(true);
+}

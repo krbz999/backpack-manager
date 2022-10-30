@@ -9,7 +9,7 @@ export class BackpackManager extends FormApplication {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       width: 450,
-      template: `/modules/${MODULE}/templates/${MODULE}.hbs`,
+      template: `modules/${MODULE}/templates/${MODULE}.hbs`,
       height: "auto",
       classes: [MODULE]
     });
@@ -59,7 +59,7 @@ export class BackpackManager extends FormApplication {
 
     if (game.system.id === "dnd5e") {
       data.bagValue = this.bag.system.attributes.encumbrance.value;
-      data.bagMax = this.item.system.capacity.value;
+      data.bagMax = this.item?.system.capacity.value ?? "";
       data.items = this.items.map(item => ({ item, quantity: item.system.quantity }));
       data.stowed = this.stowed.map(item => ({ item, quantity: item.system.quantity }));
       data.actorValue = this.actor.system.attributes.encumbrance.value;
