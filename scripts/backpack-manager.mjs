@@ -4,6 +4,7 @@ import { isValidItem, setSystemSpecificValues, updateSystemSpecificQuantity } fr
 export class BackpackManager extends FormApplication {
   constructor(object, options) {
     super(object, options);
+    this.hideOwnInventory = options.hideOwnInventory === true;
   }
 
   static get defaultOptions() {
@@ -56,6 +57,7 @@ export class BackpackManager extends FormApplication {
     const data = await super.getData();
     data.bag = this.bag.name;
     data.actor = this.actor.name;
+    data.hideOwnInventory = this.hideOwnInventory;
 
     if (game.system.id === "dnd5e") {
       data.bagValue = this.bag.system.attributes.encumbrance.value;

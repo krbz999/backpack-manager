@@ -38,6 +38,7 @@
     </div>
   </section>
 
+  {{#unless hideOwnInventory}}
   <section class="inventory">
     <header class="inventory-header" title="{{localize 'BACKPACK_MANAGER.INVENTORY_HEADER'}}">
       <div class="header-name">{{localize 'BACKPACK_MANAGER.INVENTORY'}}: {{actor}}</div>
@@ -78,4 +79,5 @@
       <i class="fa-solid fa-briefcase"></i> {{localize "Close"}}
     </button>
   </footer>
+  {{/unless}}
 </form>

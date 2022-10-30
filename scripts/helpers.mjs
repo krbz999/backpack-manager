@@ -52,7 +52,7 @@ export async function updateSystemSpecificQuantity(item, max, value) {
   }
 }
 
-export function _renderBackpackManager(browsingActor, backpackActor) {
+export function _renderBackpackManager(browsingActor, backpackActor, options = {}) {
   const render = !Object.values(backpackActor.apps).some(app => {
     return app.constructor.name === "BackpackManager";
   });
@@ -61,10 +61,14 @@ export function _renderBackpackManager(browsingActor, backpackActor) {
     backpack: backpackActor,
     actor: browsingActor,
     item: null
-  }, {
-    title: game.i18n.format("BACKPACK_MANAGER.TITLE", {
-      actor: browsingActor.name,
-      bag: backpackActor.name
-    })
-  }).render(true);
+  }, foundry.utils.mergeObject(
+    {
+      title: game.i18n.format("BACKPACK_MANAGER.TITLE", {
+        actor: browsingActor.name,
+        bag: backpackActor.name
+      })
+    },
+    options
+  )
+  ).render(true, options);
 }
