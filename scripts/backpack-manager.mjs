@@ -80,6 +80,7 @@ export class BackpackManager extends FormApplication {
     html[0].addEventListener("click", async (event) => {
       const a = event.target.closest("a");
       if (!a) return;
+      a.style.pointerEvents = "none";
       const type = a.dataset.type;
       const uuid = a.closest(".item").querySelector(".item-details").dataset.uuid;
       const item = fromUuidSync(uuid);
@@ -89,17 +90,23 @@ export class BackpackManager extends FormApplication {
       const { ctrlKey, shiftKey } = event;
 
       if (!type) {
-        return item.sheet.render(true);
+        item.sheet.render(true);
+        if (a) a.style.pointerEvents = "";
+        return;
       }
 
-      if (type === "more") {
+      else if (type === "more") {
         const newValue = ctrlKey ? value + 50 : shiftKey ? value + 5 : value + 1;
         qtyField.value = Math.clamped(newValue, 1, max);
+        if (a) a.style.pointerEvents = "";
+        return;
       }
 
       else if (type === "less") {
         const newValue = ctrlKey ? value - 50 : shiftKey ? value - 5 : value - 1;
         qtyField.value = Math.clamped(newValue, 1, max);
+        if (a) a.style.pointerEvents = "";
+        return;
       }
 
       else if (type === "retrieve") {
@@ -111,14 +118,18 @@ export class BackpackManager extends FormApplication {
 
         const [c] = await this.actor.createEmbeddedDocuments("Item", [itemData]);
         if (c) {
-          if (value === max) await item.delete();
+          if (value === max) await item.delete({ itemsWithSpells5e: { alsoDeleteChildSpells: true } });
           else await updateSystemSpecificQuantity(item, max, value);
+          if (a) a.style.pointerEvents = "";
+          return;
         }
       }
 
       else if (type === "delete") {
         // delete the item from the bag.
-        return item.deleteDialog();
+        await item.deleteDialog({ itemsWithSpells5e: { alsoDeleteChildSpells: true } });
+        if (a) a.style.pointerEvents = "";
+        return;
       }
 
       else if (type === "stow") {
@@ -130,10 +141,15 @@ export class BackpackManager extends FormApplication {
 
         const [c] = await this.bag.createEmbeddedDocuments("Item", [itemData]);
         if (c) {
-          if (value === max) await item.delete();
+          if (value === max) await item.delete({ itemsWithSpells5e: { alsoDeleteChildSpells: true } });
           else await updateSystemSpecificQuantity(item, max, value);
+          if (a) a.style.pointerEvents = "";
+          return;
         }
       }
+
+      if (a) a.style.pointerEvents = "";
+      return;
     });
   }
 
