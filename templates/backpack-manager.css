@@ -85,7 +85,7 @@ form.backpack-manager .item .functions {
   min-width: fit-content;
 }
 
-form.backpack-manager .item .functions .quantities .current {
+form.backpack-manager .item .current {
   max-width: 2em;
   text-align: center;
   height: 100%;
@@ -98,4 +98,22 @@ form.backpack-manager .button-section {
 
 [name="flags.backpack-manager.containerActorUuid"]::placeholder {
   font-style: italic;
+}
+
+.backpack-manager .currency-content {
+  display: flex;
+  justify-content: space-around;
+  padding: 0;
+}
+
+.backpack-manager .currency-content > * {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.backpack-manager .currency-content .item.currency {
+  display: flex;
+  align-items: center;
 }

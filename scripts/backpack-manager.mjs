@@ -62,6 +62,7 @@ export class BackpackManager extends FormApplication {
     data.hideOwnInventory = this.hideOwnInventory;
 
     if (game.system.id === "dnd5e") {
+      // CAPACITY
       const type = this.item.system.capacity.type;
       if (type === "weight") {
         data.bagValue = this.stowed.reduce((acc, item) => {
@@ -78,6 +79,11 @@ export class BackpackManager extends FormApplication {
       data.stowed = this.stowed.map(item => ({ item, quantity: item.system.quantity, showQty: item.system.quantity > 1 }));
       data.actorValue = this.actor.system.attributes.encumbrance.value;
       data.actorMax = this.actor.system.attributes.encumbrance.max;
+
+      // CURRENCY
+      data.currencies = Object.keys(CONFIG.DND5E.currencies).map((key) => {
+        return { class: key, label: key.toUpperCase(), max: { bag: this.bag.system.currency[key], actor: this.actor.system.currency[key] } };
+      });
     }
 
     return data;
@@ -92,9 +98,17 @@ export class BackpackManager extends FormApplication {
     html[0].addEventListener("click", async (event) => {
       const a = event.target.closest("a");
       if (!a) return;
-      a.style.pointerEvents = "none";
-      const type = a.dataset.type;
-      const uuid = a.closest(".item").querySelector(".item-details").dataset.uuid;
+      const form = a.closest("form.backpack-manager");
+      form.style.pointerEvents = "none";
+      const type = a.dataset.type ?? a.dataset.action;
+
+      if (["takeCurrency", "stowCurrency"].includes(type)) {
+        await this._adjustCurrency(event);
+        form.style.pointerEvents = "";
+        return;
+      }
+
+      const uuid = a.closest(".item").querySelector(".item-details")?.dataset.uuid ?? "";
       const item = fromUuidSync(uuid);
       const qtyField = a.closest(".item").querySelector(".current");
       const max = qtyField ? Number(qtyField.dataset.max) : 1;
@@ -103,21 +117,21 @@ export class BackpackManager extends FormApplication {
 
       if (!type) {
         item.sheet.render(true);
-        if (a) a.style.pointerEvents = "";
+        form.style.pointerEvents = "";
         return;
       }
 
       else if (type === "more") {
         const newValue = ctrlKey ? value + 50 : shiftKey ? value + 5 : value + 1;
         qtyField.value = Math.clamped(newValue, 1, max);
-        if (a) a.style.pointerEvents = "";
+        form.style.pointerEvents = "";
         return;
       }
 
       else if (type === "less") {
         const newValue = ctrlKey ? value - 50 : shiftKey ? value - 5 : value - 1;
         qtyField.value = Math.clamped(newValue, 1, max);
-        if (a) a.style.pointerEvents = "";
+        form.style.pointerEvents = "";
         return;
       }
 
@@ -132,7 +146,7 @@ export class BackpackManager extends FormApplication {
         if (c) {
           if (value === max) await item.delete({ itemsWithSpells5e: { alsoDeleteChildSpells: true } });
           else await updateSystemSpecificQuantity(item, max, value);
-          if (a) a.style.pointerEvents = "";
+          form.style.pointerEvents = "";
           return;
         }
       }
@@ -140,7 +154,7 @@ export class BackpackManager extends FormApplication {
       else if (type === "delete") {
         // delete the item from the bag.
         await item.deleteDialog({ itemsWithSpells5e: { alsoDeleteChildSpells: true } });
-        if (a) a.style.pointerEvents = "";
+        form.style.pointerEvents = "";
         return;
       }
 
@@ -155,12 +169,12 @@ export class BackpackManager extends FormApplication {
         if (c) {
           if (value === max) await item.delete({ itemsWithSpells5e: { alsoDeleteChildSpells: true } });
           else await updateSystemSpecificQuantity(item, max, value);
-          if (a) a.style.pointerEvents = "";
+          form.style.pointerEvents = "";
           return;
         }
       }
 
-      if (a) a.style.pointerEvents = "";
+      form.style.pointerEvents = "";
       return;
     });
   }
@@ -175,5 +189,46 @@ export class BackpackManager extends FormApplication {
     await super.close(options);
     delete this.bag.apps[this.appId];
     delete this.actor.apps[this.appId];
+  }
+
+  async _adjustCurrency(event) {
+    const data = event.target.closest(".currency-item").dataset;
+    const type = event.target.closest("A").dataset.action === "takeCurrency" ? "take" : "stow";
+    const ph = game.i18n.localize("BACKPACK_MANAGER.AdjustCurrency" + type.capitalize());
+    const ct = game.i18n.format("BACKPACK_MANAGER.AdjustCurrencyContentAmounts", {
+      actor: this.actor.system.currency[data.denom],
+      bag: this.bag.system.currency[data.denom],
+      denom: data.denom
+    });
+    const content = `
+    <p>${ct}</p>
+    <form>
+      <div class="form-group">
+        <label>${data.denom.toUpperCase()}</label>
+        <div class="form-fields">
+          <input type="number" placeholder="${ph}" autofocus>
+        </div>
+      </div>
+    </form>`;
+    const amount = await Dialog.prompt({
+      title: game.i18n.localize("BACKPACK_MANAGER.AdjustCurrency"),
+      content,
+      rejectClose: false,
+      label: game.i18n.localize("BACKPACK_MANAGER.AdjustCurrencyLabel" + type.capitalize()),
+      callback: (html) => html[0].querySelector("input").valueAsNumber
+    });
+    if (!amount) return;
+
+    const bagCoin = this.bag.system.currency[data.denom];
+    const actorCoin = this.actor.system.currency[data.denom];
+    const newValue = Math.clamped(amount, 0, type === "take" ? bagCoin : actorCoin);
+    const updates = type === "take" ? [
+      { _id: this.bag.id, [`system.currency.${data.denom}`]: bagCoin - newValue },
+      { _id: this.actor.id, [`system.currency.${data.denom}`]: actorCoin + newValue }
+    ] : [
+      { _id: this.bag.id, [`system.currency.${data.denom}`]: bagCoin + newValue },
+      { _id: this.actor.id, [`system.currency.${data.denom}`]: actorCoin - newValue }
+    ];
+    return Actor.updateDocuments(updates);
   }
 }

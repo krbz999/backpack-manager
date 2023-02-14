@@ -1,7 +1,24 @@
 <form class="backpack-manager">
+  <section class="currency">
+    <header>
+      <div class="header-name">{{localize "BACKPACK_MANAGER.Currencies"}}</div>
+    </header>
+    <ol class="currency-content">
+      {{#each currencies as |curr|}}
+      <div class="currency-item" data-denom="{{curr.class}}">
+        <label class="denomination {{curr.class}}">{{curr.label}}</label>
+        <div class="item currency">
+          <a data-action="takeCurrency"><i class="fa-solid fa-arrow-right-arrow-left"></i></a>
+          <input type="number" class="current" value="{{curr.max.bag}}" disabled>
+          <a data-action="stowCurrency"><i class="fa-solid fa-box-archive"></i></a>
+        </div>
+      </div>
+      {{/each}}
+    </ol>
+  </section>
   <section class="stowed">
     {{#unless hideOwnInventory}}
-    <header class="stowed-header" data-tooltip="BACKPACK_MANAGER.StowedTooltip">
+    <header class="stowed-header">
       <div class="header-name">{{localize 'BACKPACK_MANAGER.Stowed'}}: {{bag}}</div>
       {{#if showCapacity}}<div class="header-encumbrance">({{bagValue}} / {{bagMax}})</div>{{/if}}
     </header>
@@ -11,29 +28,19 @@
       <div class="item">
         <div class="item-details" data-uuid="{{item.item.uuid}}">
           <img src="{{item.item.img}}">
-          <a>
-            {{item.item.name}} {{#if item.showQty}}({{item.quantity}}){{/if}}
-          </a>
+          <a>{{item.item.name}} {{#if item.showQty}}({{item.quantity}}){{/if}}</a>
         </div>
         <div class="functions">
           {{#if item.showQty}}
           <div class="quantities">
-            <a data-type="less">
-              <i class="fa-solid fa-arrow-left"></i>
-            </a>
-            <input type="number" data-tooltip="BACKPACK_MANAGER.CurrentValue" class="current" value="{{item.quantity}}" data-max="{{item.quantity}}" disabled>
-            <a data-type="more">
-              <i class="fa-solid fa-arrow-right"></i>
-            </a>
+            <a data-type="less"><i class="fa-solid fa-arrow-left"></i></a>
+            <input type="number" class="current" value="{{item.quantity}}" data-max="{{item.quantity}}" disabled>
+            <a data-type="more"><i class="fa-solid fa-arrow-right"></i></a>
           </div>
           {{/if}}
-          <a data-type="retrieve" data-tooltip="BACKPACK_MANAGER.Retrieve">
-            <i class="fa-solid fa-arrow-right-arrow-left"></i>
-          </a>
+          <a data-type="retrieve"><i class="fa-solid fa-arrow-right-arrow-left"></i></a>
           {{#unless ../hideOwnInventory}}
-          <a data-type="delete" data-tooltip="BACKPACK_MANAGER.DeleteThisItem">
-            <i class="fa-solid fa-trash"></i>
-          </a>
+          <a data-type="delete"><i class="fa-solid fa-trash"></i></a>
           {{/unless}}
         </div>
       </div>
@@ -43,7 +50,7 @@
 
   {{#unless hideOwnInventory}}
   <section class="inventory">
-    <header class="inventory-header" data-tooltip="BACKPACK_MANAGER.YourInventory">
+    <header class="inventory-header">
       <div class="header-name">{{localize 'BACKPACK_MANAGER.Inventory'}}: {{actor}}</div>
       <div class="header-encumbrance">({{actorValue}} / {{actorMax}})</div>
     </header>
@@ -59,18 +66,12 @@
         <div class="functions">
           {{#if item.showQty}}
           <div class="quantities">
-            <a data-type="less">
-              <i class="fa-solid fa-arrow-left"></i>
-            </a>
-            <input type="number" data-tooltip="BACKPACK_MANAGER.CurrentValue" class="current" value="{{item.quantity}}" data-max="{{item.quantity}}" disabled>
-            <a data-type="more">
-              <i class="fa-solid fa-arrow-right"></i>
-            </a>
+            <a data-type="less"><i class="fa-solid fa-arrow-left"></i></a>
+            <input type="number" class="current" value="{{item.quantity}}" data-max="{{item.quantity}}" disabled>
+            <a data-type="more"><i class="fa-solid fa-arrow-right"></i></a>
           </div>
           {{/if}}
-          <a data-type="stow" data-tooltip="BACKPACK_MANAGER.Stow">
-            <i class="fa-solid fa-box-archive"></i>
-          </a>
+          <a data-type="stow"><i class="fa-solid fa-box-archive"></i></a>
         </div>
       </div>
       {{/each}}

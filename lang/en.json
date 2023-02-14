@@ -1,15 +1,16 @@
 {
+  "BACKPACK_MANAGER.AdjustCurrency": "Adjust Currency",
+  "BACKPACK_MANAGER.AdjustCurrencyContentAmounts": "You have {actor} {denom}, and the backpack has {bag}.",
+  "BACKPACK_MANAGER.AdjustCurrencyLabelStow": "Stow Currency",
+  "BACKPACK_MANAGER.AdjustCurrencyLabelTake": "Retrieve Currency",
+  "BACKPACK_MANAGER.AdjustCurrencyStow": "Amount to stow",
+  "BACKPACK_MANAGER.AdjustCurrencyTake": "Amount to take",
   "BACKPACK_MANAGER.CannotUseSelf": "You cannot use yourself as a backpack.",
-  "BACKPACK_MANAGER.CurrentValue": "The current value you are stowing or retrieving. Use Shift or Ctrl for different amounts",
-  "BACKPACK_MANAGER.DeleteThisItem": "Delete this item",
+  "BACKPACK_MANAGER.Currencies": "Currencies",
   "BACKPACK_MANAGER.Inventory": "Inventory",
   "BACKPACK_MANAGER.NotOwner": "You do not have sufficient ownership over the container actor.",
   "BACKPACK_MANAGER.PlaceUuidHere": "Place the uuid of an actor here",
-  "BACKPACK_MANAGER.Retrieve": "Retrieve this item from the container",
-  "BACKPACK_MANAGER.Stow": "Stow this item in the container",
   "BACKPACK_MANAGER.Stowed": "Stowed",
-  "BACKPACK_MANAGER.StowedTooltip": "The container and how much it can contain",
   "BACKPACK_MANAGER.Title": "{actor}'s {bag}",
-  "BACKPACK_MANAGER.UuidActorNotFound": "A uuid was found in {item}, but the corresponding actor was not.",
-  "BACKPACK_MANAGER.YourInventory": "Your inventory"
+  "BACKPACK_MANAGER.UuidActorNotFound": "A uuid was found in {item}, but the corresponding actor was not."
 }

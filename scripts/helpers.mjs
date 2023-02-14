@@ -30,7 +30,6 @@ export function isValidItem(item) {
 /**
  * Change system specific values when an item is stowed or retrieved.
  * itemData is the item.toObject() and 'data' is any extra values needed.
- * (currently just the new quantity)
  */
 export function setSystemSpecificValues(itemData, data) {
   if (game.system.id === "dnd5e") {
