@@ -11,9 +11,10 @@ export class BackpackManager extends FormApplication {
     return foundry.utils.mergeObject(super.defaultOptions, {
       width: 450,
       template: `modules/${MODULE}/templates/${MODULE}.hbs`,
-      height: "auto",
+      height: 750,
       classes: [MODULE],
-      scrollY: [".stowed-content", ".inventory-content"]
+      scrollY: [".stowed-content", ".inventory-content"],
+      resizable: true
     });
   }
 
@@ -122,7 +123,7 @@ export class BackpackManager extends FormApplication {
         // move item from this actor to the owner.
         const itemData = item.toObject();
         setSystemSpecificValues(itemData, {
-          quantity: value
+          quantity: value, target: this.actor, src: this.bag
         });
 
         const [c] = await this.actor.createEmbeddedDocuments("Item", [itemData]);
@@ -145,7 +146,7 @@ export class BackpackManager extends FormApplication {
         // stow item in bag.
         const itemData = item.toObject();
         setSystemSpecificValues(itemData, {
-          quantity: value
+          quantity: value, target: this.bag, src: this.actor
         });
 
         const [c] = await this.bag.createEmbeddedDocuments("Item", [itemData]);

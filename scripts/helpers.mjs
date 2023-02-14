@@ -35,11 +35,7 @@ export function isValidItem(item) {
 export function setSystemSpecificValues(itemData, data) {
   if (game.system.id === "dnd5e") {
     itemData.system.quantity = data.quantity;
-    if (itemData.system.equipped) itemData.system.equipped = false;
-    const { ATTUNED, REQUIRED } = CONFIG.DND5E.attunementTypes;
-    if (itemData.system.attunement === ATTUNED) {
-      itemData.system.attunement = REQUIRED;
-    }
+    data.target.sheet._onDropSingleItem(itemData);
   }
 }
 
