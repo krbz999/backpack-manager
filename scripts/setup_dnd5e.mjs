@@ -27,7 +27,7 @@ export function setup_dnd5e() {
     if (!uuid) return;
 
     const backpack = fromUuidSync(uuid);
-    if (!backpack) {
+    if (!backpack || !(backpack instanceof Actor)) {
       const string = "BACKPACK_MANAGER.UuidActorNotFound";
       const locale = game.i18n.format(string, { item: item.name });
       ui.notifications.warn(locale);

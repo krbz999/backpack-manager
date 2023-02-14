@@ -19,9 +19,10 @@ export class BackpackManager extends FormApplication {
   }
 
   get id() {
-    return `${MODULE}-${this.object.backpack.id}`;
+    return `${MODULE}-${this.object.backpack.uuid.replaceAll(".", "-")}`;
   }
 
+  // The items stowed on the Backpack Actor.
   get stowed() {
     return this.bag.items.filter((item) => {
       return isValidItem(item);
@@ -30,6 +31,7 @@ export class BackpackManager extends FormApplication {
     });
   }
 
+  // The items held on the Actor.
   get items() {
     return this.actor.items.filter((item) => {
       return isValidItem(item);
@@ -38,19 +40,23 @@ export class BackpackManager extends FormApplication {
     });
   }
 
+  // Whether you have permission to update the Backpack actor.
   get isOwner() {
     const { OWNER } = CONST.DOCUMENT_OWNERSHIP_LEVELS;
     return this.bag.testUserPermission(game.user, OWNER, { exact: true });
   }
 
+  // The actor viewing the backpack.
   get actor() {
     return this.object.actor;
   }
 
+  // The backpack.
   get bag() {
     return this.object.backpack;
   }
 
+  // The actor's container-type item that links to the Backpack Actor.
   get item() {
     return this.object.item;
   }
@@ -191,6 +197,7 @@ export class BackpackManager extends FormApplication {
     delete this.actor.apps[this.appId];
   }
 
+  // Adjust the currency on the Actor and the Backpack Actor.
   async _adjustCurrency(event) {
     const data = event.target.closest(".currency-item").dataset;
     const type = event.target.closest("A").dataset.action === "takeCurrency" ? "take" : "stow";

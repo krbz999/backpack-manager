@@ -8,14 +8,15 @@ Make container management easy for your players. This module is useful for you i
 
 With this module, you can designate an actor in the sidebar to be a 'container actor'. To set it up, follow these steps:
 - Give the player ownership of an actor that serves as the container.
-- Copy the ID of the container actor (click the book icon in its header).
+- Copy the UUID of the container actor (right-click the book icon in its header).
 - Edit the Container item on the player character and paste the uuid of the actor in the new field that has been added.
 - The uuid is the id of the container actor, prepended with `Actor.`. For example `Actor.5hfpenhg8fh49Ef5`.
 
-Now when the player uses the Container item, it will open an interface to stow or retrieve items. Hover over any component of the interface for a tooltip that shows what they do.
+Now when the player uses the Container item, it will open an interface to stow or retrieve items.
 - Stow or retrieve an item, or stack of items, by clicking the box icon or the double arrow icon.
 - Adjust how many items you want to stow or retrieve by using the left or right arrow buttons.
 - Holding Shift changes the value by 5 instead of 1. Holding Ctrl changes the value by 50 instead of 1.
+- Stow or retrieve currencies between the actors. Same modifier keys apply here.
 
 ## Can multiple players use the same container?
 Yes! Just give them all ownership of the container actor, and follow the setup steps above for each player.
@@ -29,11 +30,11 @@ No.
 The interface is automatically populated with a list of each actor's items. These item types have been explicitly excluded:
 - class, subclass, and background-type items.
 - feature and spell-type items.
-- container items.
+
+Currency can be exchanged with the backpack actor.
 
 ## What changes are made to the items when they are moved from actor to actor?
-- If an item is currently set to "Attuned", it is automatically set to "Attunement Required".
-- If an item is currently set to "Equipped", it is automatically set to be unequipped.
+- Attunement state, equipped status, and proficiency are all adjusted as if you had dropped the item onto the actor sheet.
 - The quantity of the item is adjusted by the choices made in the interface itself.
 No other changes are made to the items.
 

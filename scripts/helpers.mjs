@@ -1,9 +1,7 @@
 import { BackpackManager } from "./backpack-manager.mjs";
 import { MODULE } from "./constants.mjs";
 
-/**
- * Whether this is a valid item to put in a backpack.
- */
+/* Whether this is a valid item to put in a backpack. */
 export function isValidItem(item) {
   if (game.system.id === "dnd5e") {
     if ([
@@ -38,15 +36,14 @@ export function setSystemSpecificValues(itemData, data) {
   }
 }
 
-/**
- * Update the quantity of the item in the system-specific way.
- */
+/* Update the quantity of the item in the system-specific way. */
 export async function updateSystemSpecificQuantity(item, max, value) {
   if (game.system.id === "dnd5e") {
     return item.update({ "system.quantity": max - value });
   }
 }
 
+/* Render the application. */
 export function _renderBackpackManager(browsingActor, backpackActor, options = {}) {
   const render = !Object.values(backpackActor.apps).some(app => {
     return app.constructor.name === "BackpackManager";
