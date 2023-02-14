@@ -12,7 +12,8 @@ export class BackpackManager extends FormApplication {
       width: 450,
       template: `modules/${MODULE}/templates/${MODULE}.hbs`,
       height: "auto",
-      classes: [MODULE]
+      classes: [MODULE],
+      scrollY: [".stowed-content", ".inventory-content"]
     });
   }
 
