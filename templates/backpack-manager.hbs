@@ -12,11 +12,11 @@
         <div class="item-details" data-uuid="{{item.item.uuid}}">
           <img src="{{item.item.img}}">
           <a>
-            {{item.item.name}} {{#if (backpackManagerCheckqty item.quantity)}}({{item.quantity}}){{/if}}
+            {{item.item.name}} {{#if item.showQty}}({{item.quantity}}){{/if}}
           </a>
         </div>
         <div class="functions">
-          {{#if (backpackManagerCheckqty item.quantity)}}
+          {{#if item.showQty}}
           <div class="quantities">
             <a data-type="less">
               <i class="fa-solid fa-arrow-left"></i>
@@ -53,11 +53,11 @@
         <div class="item-details" data-uuid="{{item.item.uuid}}">
           <img src="{{item.item.img}}">
           <a>
-            {{item.item.name}} {{#if (backpackManagerCheckqty item.quantity)}}({{item.quantity}}){{/if}}
+            {{item.item.name}} {{#if item.showQty}}({{item.quantity}}){{/if}}
           </a>
         </div>
         <div class="functions">
-          {{#if (backpackManagerCheckqty item.quantity)}}
+          {{#if item.showQty}}
           <div class="quantities">
             <a data-type="less">
               <i class="fa-solid fa-arrow-left"></i>

@@ -64,16 +64,18 @@ export class BackpackManager extends FormApplication {
     if (game.system.id === "dnd5e") {
       const type = this.item.system.capacity.type;
       if (type === "weight") {
-        data.bagValue = this.bag.system.attributes.encumbrance?.value;
+        data.bagValue = this.stowed.reduce((acc, item) => {
+          return acc + item.system.weight;
+        }, 0);
       } else if (type === "items") {
         data.bagValue = this.stowed.reduce((acc, item) => {
           return acc + item.system.quantity;
         }, 0);
       }
       data.bagMax = this.item.system.capacity.value;
-      data.showCapacity = !!data.bagValue && !!data.bagMax;
-      data.items = this.items.map(item => ({ item, quantity: item.system.quantity }));
-      data.stowed = this.stowed.map(item => ({ item, quantity: item.system.quantity }));
+      data.showCapacity = !!data.bagMax && (data.bagValue >= 0);
+      data.items = this.items.map(item => ({ item, quantity: item.system.quantity, showQty: item.system.quantity > 1 }));
+      data.stowed = this.stowed.map(item => ({ item, quantity: item.system.quantity, showQty: item.system.quantity > 1 }));
       data.actorValue = this.actor.system.attributes.encumbrance.value;
       data.actorMax = this.actor.system.attributes.encumbrance.max;
     }
