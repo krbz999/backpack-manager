@@ -1,3 +1,21 @@
+div.app.backpack-manager {
+  min-width: 400px;
+  min-height: 300px;
+}
+
+div.app.backpack-manager > section.window-content {
+  overflow-y: hidden;
+  height: 100%;
+}
+
+form.backpack-manager {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 form.backpack-manager header {
   height: 28px;
   font-weight: bold;
@@ -12,11 +30,21 @@ form.backpack-manager header {
   grid-template-columns: auto auto;
 }
 
+form.backpack-manager :is(.inventory, .stowed) {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 form.backpack-manager .stowed .stowed-content,
 form.backpack-manager .inventory .inventory-content {
   overflow-y: auto;
-  max-height: 300px;
-  min-height: 300px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 form.backpack-manager section:last-of-type {
