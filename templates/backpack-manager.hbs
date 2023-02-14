@@ -1,8 +1,8 @@
 <form class="backpack-manager">
   <section class="stowed">
     {{#unless hideOwnInventory}}
-    <header class="stowed-header" data-tooltip="BACKPACK_MANAGER.STOW_HEADER">
-      <div class="header-name">{{localize 'BACKPACK_MANAGER.STOWED'}}: {{bag}}</div>
+    <header class="stowed-header" data-tooltip="BACKPACK_MANAGER.StowedTooltip">
+      <div class="header-name">{{localize 'BACKPACK_MANAGER.Stowed'}}: {{bag}}</div>
       {{#if showCapacity}}<div class="header-encumbrance">({{bagValue}} / {{bagMax}})</div>{{/if}}
     </header>
     {{/unless}}
@@ -18,20 +18,20 @@
         <div class="functions">
           {{#if (backpackManagerCheckqty item.quantity)}}
           <div class="quantities">
-            <a data-type="less" data-tooltip="BACKPACK_MANAGER.LESS">
+            <a data-type="less">
               <i class="fa-solid fa-arrow-left"></i>
             </a>
-            <input type="number" data-tooltip="BACKPACK_MANAGER.VALUE" class="current" value="{{item.quantity}}" data-max="{{item.quantity}}" disabled>
-            <a data-type="more" data-tooltip="BACKPACK_MANAGER.MORE">
+            <input type="number" data-tooltip="BACKPACK_MANAGER.CurrentValue" class="current" value="{{item.quantity}}" data-max="{{item.quantity}}" disabled>
+            <a data-type="more">
               <i class="fa-solid fa-arrow-right"></i>
             </a>
           </div>
           {{/if}}
-          <a data-type="retrieve" data-tooltip="BACKPACK_MANAGER.RETRIEVE">
+          <a data-type="retrieve" data-tooltip="BACKPACK_MANAGER.Retrieve">
             <i class="fa-solid fa-arrow-right-arrow-left"></i>
           </a>
           {{#unless ../hideOwnInventory}}
-          <a data-type="delete" data-tooltip="BACKPACK_MANAGER.DELETE">
+          <a data-type="delete" data-tooltip="BACKPACK_MANAGER.DeleteThisItem">
             <i class="fa-solid fa-trash"></i>
           </a>
           {{/unless}}
@@ -43,8 +43,8 @@
 
   {{#unless hideOwnInventory}}
   <section class="inventory">
-    <header class="inventory-header" data-tooltip="BACKPACK_MANAGER.INVENTORY_HEADER">
-      <div class="header-name">{{localize 'BACKPACK_MANAGER.INVENTORY'}}: {{actor}}</div>
+    <header class="inventory-header" data-tooltip="BACKPACK_MANAGER.YourInventory">
+      <div class="header-name">{{localize 'BACKPACK_MANAGER.Inventory'}}: {{actor}}</div>
       <div class="header-encumbrance">({{actorValue}} / {{actorMax}})</div>
     </header>
     <div class="inventory-content">
@@ -59,16 +59,16 @@
         <div class="functions">
           {{#if (backpackManagerCheckqty item.quantity)}}
           <div class="quantities">
-            <a data-type="less" data-tooltip="BACKPACK_MANAGER.LESS">
+            <a data-type="less">
               <i class="fa-solid fa-arrow-left"></i>
             </a>
-            <input type="number" data-tooltip="BACKPACK_MANAGER.VALUE" class="current" value="{{item.quantity}}" data-max="{{item.quantity}}" disabled>
-            <a data-type="more" data-tooltip="BACKPACK_MANAGER.MORE">
+            <input type="number" data-tooltip="BACKPACK_MANAGER.CurrentValue" class="current" value="{{item.quantity}}" data-max="{{item.quantity}}" disabled>
+            <a data-type="more">
               <i class="fa-solid fa-arrow-right"></i>
             </a>
           </div>
           {{/if}}
-          <a data-type="stow" data-tooltip="BACKPACK_MANAGER.STOW">
+          <a data-type="stow" data-tooltip="BACKPACK_MANAGER.Stow">
             <i class="fa-solid fa-box-archive"></i>
           </a>
         </div>

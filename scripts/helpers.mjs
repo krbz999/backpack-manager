@@ -63,7 +63,7 @@ export function _renderBackpackManager(browsingActor, backpackActor, options = {
     item: null
   }, foundry.utils.mergeObject(
     {
-      title: game.i18n.format("BACKPACK_MANAGER.TITLE", {
+      title: game.i18n.format("BACKPACK_MANAGER.Title", {
         actor: browsingActor.name,
         bag: backpackActor.name
       })

@@ -8,13 +8,12 @@ export function setup_dnd5e() {
     const weightless = html[0].querySelector(selector);
     const label = weightless.closest("label");
 
-    const labelText = game.i18n.localize("DND5E.ItemTypeBackpack");
-    const title = game.i18n.localize("BACKPACK_MANAGER.PLACE_UUID_HERE");
+    const labelText = game.i18n.localize("ITEM.TypeContainer");
     const name = `flags.${MODULE}.containerActorUuid`;
     const value = item.getFlag(MODULE, "containerActorUuid") ?? "";
     const placeholder = `Actor.a1s2d3f4g5h6j7k8...`;
     const template = `
-    <label title="${title}">${labelText}:</label>
+    <label data-tooltip="BACKPACK_MANAGER.PlaceUuidHere">${labelText}:</label>
     <input type="text" name="${name}" value="${value}" placeholder="${placeholder}">`;
     const DIV = document.createElement("DIV");
     DIV.innerHTML = template;
@@ -29,15 +28,13 @@ export function setup_dnd5e() {
 
     const backpack = fromUuidSync(uuid);
     if (!backpack) {
-      const string = "BACKPACK_MANAGER.NO_ACTOR_FROM_UUID";
+      const string = "BACKPACK_MANAGER.UuidActorNotFound";
       const locale = game.i18n.format(string, { item: item.name });
       ui.notifications.warn(locale);
       return;
     }
     if (backpack === item.parent) {
-      const string = "BACKPACK_MANAGER.BACKPACK_IS_SELF";
-      const locale = game.i18n.localize(string);
-      ui.notifications.warn(locale);
+      ui.notifications.warn("BACKPACK_MANAGER.CannotUseSelf", { localize: true });
       return;
     }
 
@@ -50,16 +47,14 @@ export function setup_dnd5e() {
     // item: the item linked to the backpack.
     if (render) {
       const pack = new BackpackManager({ backpack, actor, item }, {
-        title: game.i18n.format("BACKPACK_MANAGER.TITLE", {
+        title: game.i18n.format("BACKPACK_MANAGER.Title", {
           actor: item.parent.name,
           bag: backpack.name
         })
       });
       if (pack.isOwner) pack.render(true);
       else {
-        const string = "BACKPACK_MANAGER.NOT_OWNER";
-        const locale = game.i18n.localize(string);
-        ui.notifications.error(locale);
+        ui.notifications.error("BACKPACK_MANAGER.NotOwner", { localize: true });
         return;
       }
     }
