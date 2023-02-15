@@ -1,6 +1,6 @@
 div.app.backpack-manager {
   min-width: 400px;
-  min-height: 300px;
+  min-height: 400px;
 }
 
 div.app.backpack-manager > section.window-content {
@@ -116,4 +116,5 @@ form.backpack-manager .button-section {
 .backpack-manager .currency-content .item.currency {
   display: flex;
   align-items: center;
+  flex-direction: column-reverse;
 }

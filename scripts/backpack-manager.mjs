@@ -71,9 +71,13 @@ export class BackpackManager extends FormApplication {
       // CAPACITY
       const type = this.item.system.capacity.type;
       if (type === "weight") {
-        data.bagValue = this.stowed.reduce((acc, item) => {
-          return acc + item.system.weight;
+        const currencyWeight = game.settings.get("dnd5e", "currencyWeight");
+        const coinW = !currencyWeight ? 0 : Object.keys(CONFIG.DND5E.currencies).reduce((acc, c) => {
+          return acc + (this.bag.system.currency[c] || 0);
         }, 0);
+        data.bagValue = this.stowed.reduce((acc, item) => {
+          return acc + (item.system.weight * item.system.quantity);
+        }, Math.floor(coinW / 50));
       } else if (type === "items") {
         data.bagValue = this.stowed.reduce((acc, item) => {
           return acc + item.system.quantity;
