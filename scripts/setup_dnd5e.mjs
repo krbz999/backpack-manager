@@ -1,8 +1,8 @@
-import { BackpackManager } from "./backpack-manager.mjs";
-import { MODULE } from "./constants.mjs";
+import {BackpackManager} from "./backpack-manager.mjs";
+import {MODULE} from "./constants.mjs";
 
 export function setup_dnd5e() {
-  Hooks.on("renderItemSheet", ({ object: item }, html) => {
+  Hooks.on("renderItemSheet", ({object: item}, html) => {
     if (item.type !== "backpack") return;
     const selector = "[name='system.capacity.weightless']";
     const weightless = html[0].querySelector(selector);
@@ -29,12 +29,12 @@ export function setup_dnd5e() {
     const backpack = fromUuidSync(uuid);
     if (!backpack || !(backpack instanceof Actor)) {
       const string = "BACKPACK_MANAGER.UuidActorNotFound";
-      const locale = game.i18n.format(string, { item: item.name });
+      const locale = game.i18n.format(string, {item: item.name});
       ui.notifications.warn(locale);
       return;
     }
     if (backpack === item.parent) {
-      ui.notifications.warn("BACKPACK_MANAGER.CannotUseSelf", { localize: true });
+      ui.notifications.warn("BACKPACK_MANAGER.CannotUseSelf", {localize: true});
       return;
     }
 
@@ -46,7 +46,7 @@ export function setup_dnd5e() {
     // actor: the actor stowing or retriving items.
     // item: the item linked to the backpack.
     if (render) {
-      const pack = new BackpackManager({ backpack, actor, item }, {
+      const pack = new BackpackManager({backpack, actor, item}, {
         title: game.i18n.format("BACKPACK_MANAGER.Title", {
           actor: item.parent.name,
           bag: backpack.name
@@ -54,7 +54,7 @@ export function setup_dnd5e() {
       });
       if (pack.isOwner) pack.render(true);
       else {
-        ui.notifications.error("BACKPACK_MANAGER.NotOwner", { localize: true });
+        ui.notifications.error("BACKPACK_MANAGER.NotOwner", {localize: true});
         return;
       }
     }

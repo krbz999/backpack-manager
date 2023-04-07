@@ -86,7 +86,7 @@ form.backpack-manager .item .functions {
 }
 
 form.backpack-manager .item .current {
-  max-width: 2em;
+  max-width: 3em;
   text-align: center;
   height: 100%;
   border-radius: 6px;

@@ -39,4 +39,4 @@ Currency can be exchanged with the backpack actor.
 No other changes are made to the items.
 
 <h1>Compatibility</h1>
-<p>You should not expect this module to work with modules that overhaul or destroy core roll behaviour, particularly WIRE and MIDI. These modules are unsupported, and any compatiblity is nothing but a happy accident.</p>
+<p>You should not expect this module to work with modules that overhaul or destroy core roll behaviour, particularly WIRE, RSR, and MIDI. These modules are unsupported, and any compatiblity is nothing but a happy accident.</p>

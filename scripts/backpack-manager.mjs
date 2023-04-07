@@ -1,10 +1,11 @@
-import { MODULE } from "./constants.mjs";
-import { isValidItem, setSystemSpecificValues, updateSystemSpecificQuantity } from "./helpers.mjs";
+import {MODULE} from "./constants.mjs";
+import {isValidItem, setSystemSpecificValues, updateSystemSpecificQuantity} from "./helpers.mjs";
 
-export class BackpackManager extends FormApplication {
-  constructor(object, options) {
-    super(object, options);
-    this.hideOwnInventory = options.hideOwnInventory === true;
+export class BackpackManager extends Application {
+  constructor(object, options = {}) {
+    super(options);
+    this.hideOwnInventory = (options.hideOwnInventory === true);
+    this.object = object;
   }
 
   static get defaultOptions() {
@@ -22,7 +23,10 @@ export class BackpackManager extends FormApplication {
     return `${MODULE}-${this.object.backpack.uuid.replaceAll(".", "-")}`;
   }
 
-  // The items stowed on the Backpack Actor.
+  /**
+   * The valid items stowed on the Backpack Actor.
+   * @returns {Item[]}      The filtered array of valid items.
+   */
   get stowed() {
     return this.bag.items.filter((item) => {
       return isValidItem(item);
@@ -31,7 +35,10 @@ export class BackpackManager extends FormApplication {
     });
   }
 
-  // The items held on the Actor.
+  /**
+   * The items held on the Actor viewing the backpack.
+   * @returns {Item[]}      The filtered array of valid items.
+   */
   get items() {
     return this.actor.items.filter((item) => {
       return isValidItem(item);
@@ -40,27 +47,39 @@ export class BackpackManager extends FormApplication {
     });
   }
 
-  // Whether you have permission to update the Backpack actor.
+  /**
+   * Get whether the current user has permission to view this backpack.
+   * @returns {boolean}     Whether the user has permission to view the backpack.
+   */
   get isOwner() {
-    const { OWNER } = CONST.DOCUMENT_OWNERSHIP_LEVELS;
-    return this.bag.testUserPermission(game.user, OWNER, { exact: true });
+    return this.bag.testUserPermission(game.user, "OWNER");
   }
 
-  // The actor viewing the backpack.
+  /**
+   * The actor viewing the backpack.
+   * @returns {Actor}     The actor.
+   */
   get actor() {
     return this.object.actor;
   }
 
-  // The backpack.
+  /**
+   * The backpack being viewed.
+   * @returns {Actor}     The backpack.
+   */
   get bag() {
     return this.object.backpack;
   }
 
-  // The actor's container-type item that links to the Backpack Actor.
+  /**
+   * The viewing actor's container-type item that links to the Backpack Actor.
+   * @returns {Item|null}     The item if it exists, otherwise null.
+   */
   get item() {
-    return this.object.item;
+    return this.object.item ?? null;
   }
 
+  /** @override */
   async getData() {
     const data = await super.getData();
     data.bag = this.bag.name;
@@ -69,7 +88,7 @@ export class BackpackManager extends FormApplication {
 
     if (game.system.id === "dnd5e") {
       // CAPACITY
-      const type = this.item.system.capacity.type;
+      const type = (this.item !== null) ? this.item.system.capacity.type : null;
       if (type === "weight") {
         const currencyWeight = game.settings.get("dnd5e", "currencyWeight");
         const coinW = !currencyWeight ? 0 : Object.keys(CONFIG.DND5E.currencies).reduce((acc, c) => {
@@ -83,26 +102,23 @@ export class BackpackManager extends FormApplication {
           return acc + item.system.quantity;
         }, 0);
       }
-      data.bagMax = this.item.system.capacity.value;
+      data.bagMax = (this.item !== null) ? this.item.system.capacity.value : null;
       data.showCapacity = !!data.bagMax && (data.bagValue >= 0);
-      data.items = this.items.map(item => ({ item, quantity: item.system.quantity, showQty: item.system.quantity > 1 }));
-      data.stowed = this.stowed.map(item => ({ item, quantity: item.system.quantity, showQty: item.system.quantity > 1 }));
+      data.items = this.items.map(item => ({item, quantity: item.system.quantity, showQty: item.system.quantity > 1}));
+      data.stowed = this.stowed.map(item => ({item, quantity: item.system.quantity, showQty: item.system.quantity > 1}));
       data.actorValue = this.actor.system.attributes.encumbrance.value;
       data.actorMax = this.actor.system.attributes.encumbrance.max;
 
       // CURRENCY
       data.currencies = Object.keys(CONFIG.DND5E.currencies).map((key) => {
-        return { class: key, label: key.toUpperCase(), max: { bag: this.bag.system.currency[key], actor: this.actor.system.currency[key] } };
+        return {class: key, label: key.toUpperCase(), max: {bag: this.bag.system.currency[key], actor: this.actor.system.currency[key]}};
       });
     }
 
     return data;
   }
 
-  async _updateObject(...T) {
-    return;
-  }
-
+  /** @override */
   activateListeners(html) {
     super.activateListeners(html);
     html[0].addEventListener("click", async (event) => {
@@ -123,7 +139,7 @@ export class BackpackManager extends FormApplication {
       const qtyField = a.closest(".item").querySelector(".current");
       const max = qtyField ? Number(qtyField.dataset.max) : 1;
       const value = qtyField ? Number(qtyField.value) : 1;
-      const { ctrlKey, shiftKey } = event;
+      const {ctrlKey, shiftKey} = event;
 
       if (!type) {
         item.sheet.render(true);
@@ -154,7 +170,7 @@ export class BackpackManager extends FormApplication {
 
         const [c] = await this.actor.createEmbeddedDocuments("Item", [itemData]);
         if (c) {
-          if (value === max) await item.delete({ itemsWithSpells5e: { alsoDeleteChildSpells: true } });
+          if (value === max) await item.delete({itemsWithSpells5e: {alsoDeleteChildSpells: true}});
           else await updateSystemSpecificQuantity(item, max, value);
           form.style.pointerEvents = "";
           return;
@@ -163,7 +179,7 @@ export class BackpackManager extends FormApplication {
 
       else if (type === "delete") {
         // delete the item from the bag.
-        await item.deleteDialog({ itemsWithSpells5e: { alsoDeleteChildSpells: true } });
+        await item.deleteDialog({itemsWithSpells5e: {alsoDeleteChildSpells: true}});
         form.style.pointerEvents = "";
         return;
       }
@@ -177,7 +193,7 @@ export class BackpackManager extends FormApplication {
 
         const [c] = await this.bag.createEmbeddedDocuments("Item", [itemData]);
         if (c) {
-          if (value === max) await item.delete({ itemsWithSpells5e: { alsoDeleteChildSpells: true } });
+          if (value === max) await item.delete({itemsWithSpells5e: {alsoDeleteChildSpells: true}});
           else await updateSystemSpecificQuantity(item, max, value);
           form.style.pointerEvents = "";
           return;
@@ -189,19 +205,25 @@ export class BackpackManager extends FormApplication {
     });
   }
 
+  /** @override */
   async render(force, options = {}) {
     this.bag.apps[this.appId] = this;
     this.actor.apps[this.appId] = this;
     return super.render(force, options);
   }
 
+  /** @override */
   async close(options = {}) {
     await super.close(options);
     delete this.bag.apps[this.appId];
     delete this.actor.apps[this.appId];
   }
 
-  // Adjust the currency on the Actor and the Backpack Actor.
+  /**
+   * Adjust the currency on the viewing Actor and the Backpack Actor.
+   * @param {PointerEvent} event      The initiating click event.
+   * @returns {Actor[]}               The two updated Actor documents.
+   */
   async _adjustCurrency(event) {
     const data = event.target.closest(".currency-item").dataset;
     const type = event.target.closest("A").dataset.action === "takeCurrency" ? "take" : "stow";
@@ -234,11 +256,11 @@ export class BackpackManager extends FormApplication {
     const actorCoin = this.actor.system.currency[data.denom];
     const newValue = Math.clamped(amount, 0, type === "take" ? bagCoin : actorCoin);
     const updates = type === "take" ? [
-      { _id: this.bag.id, [`system.currency.${data.denom}`]: bagCoin - newValue },
-      { _id: this.actor.id, [`system.currency.${data.denom}`]: actorCoin + newValue }
+      {_id: this.bag.id, [`system.currency.${data.denom}`]: bagCoin - newValue},
+      {_id: this.actor.id, [`system.currency.${data.denom}`]: actorCoin + newValue}
     ] : [
-      { _id: this.bag.id, [`system.currency.${data.denom}`]: bagCoin + newValue },
-      { _id: this.actor.id, [`system.currency.${data.denom}`]: actorCoin - newValue }
+      {_id: this.bag.id, [`system.currency.${data.denom}`]: bagCoin + newValue},
+      {_id: this.actor.id, [`system.currency.${data.denom}`]: actorCoin - newValue}
     ];
     return Actor.updateDocuments(updates);
   }

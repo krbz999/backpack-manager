@@ -1,6 +1,6 @@
-import { MODULE } from "./scripts/constants.mjs";
-import { _renderBackpackManager } from "./scripts/helpers.mjs";
-import { setup_dnd5e } from "./scripts/setup_dnd5e.mjs";
+import {MODULE} from "./scripts/constants.mjs";
+import {_renderBackpackManager} from "./scripts/helpers.mjs";
+import {setup_dnd5e} from "./scripts/setup_dnd5e.mjs";
 
 Hooks.once("setup", () => {
   game.modules.get(MODULE).api = {
