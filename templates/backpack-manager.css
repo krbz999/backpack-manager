@@ -1,22 +1,15 @@
-div.app.backpack-manager {
+.backpack-manager {
   min-width: 400px;
   min-height: 400px;
 }
 
-div.app.backpack-manager > section.window-content {
-  overflow-y: hidden;
-  height: 100%;
-}
-
-form.backpack-manager {
-  height: 100%;
+.backpack-manager .content {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  flex: 1;
 }
 
-form.backpack-manager header {
+.backpack-manager .content header {
   height: 28px;
   font-weight: bold;
   border: 1px solid var(--color-border-light-tertiary);
@@ -30,29 +23,29 @@ form.backpack-manager header {
   grid-template-columns: auto auto;
 }
 
-form.backpack-manager :is(.inventory, .stowed) {
-  height: 100%;
+.backpack-manager .storages {
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
+}
+
+.backpack-manager [data-action="collapse"] {
+  cursor: pointer;
+}
+
+.backpack-manager .storage {
   flex: 1;
+  overflow: auto;
+  transition: 200ms;
 }
 
-form.backpack-manager .stowed .stowed-content,
-form.backpack-manager .inventory .inventory-content {
-  overflow-y: auto;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+.backpack-manager .collapsed + .storage {
+  flex: 0;
+  height: 0;
+  overflow: hidden;
 }
 
-form.backpack-manager section:last-of-type {
-  border-bottom: 1px solid var(--color-border-light-tertiary);
-}
-
-form.backpack-manager .stowed-content .item,
-form.backpack-manager .inventory-content .item {
+.backpack-manager .content .storage .item {
   display: flex;
   justify-content: space-between;
   padding: 0.25em;
@@ -61,39 +54,43 @@ form.backpack-manager .inventory-content .item {
   gap: 1em;
 }
 
-form.backpack-manager .stowed-content .item:nth-child(2n-1),
-form.backpack-manager .inventory-content .item:nth-child(2n-1) {
+.backpack-manager .content .storage .item:nth-child(2n-1) {
   background: #11643b21;
 }
 
-form.backpack-manager .item .item-details {
+.backpack-manager .content .item .item-details {
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;
 }
 
-form.backpack-manager .item img {
+.backpack-manager .content .item img {
   border: none;
   vertical-align: bottom;
   height: 1.3em;
 }
 
-form.backpack-manager .item .functions {
+.backpack-manager .content .item .functions {
   display: flex;
   white-space: nowrap;
   gap: 1em;
   min-width: fit-content;
 }
 
-form.backpack-manager .item .current {
+.backpack-manager .content .item .current {
   max-width: 3em;
   text-align: center;
   height: 100%;
   border-radius: 6px;
 }
 
-form.backpack-manager .button-section {
-  margin-top: 1em;
+.backpack-manager .content .button-section {
+  display: flex;
+  border-top: 1px solid var(--color-border-light-tertiary);
+}
+
+.backpack-manager [data-action="close"] {
+  margin: 0.5em;
 }
 
 [name="flags.backpack-manager.containerActorUuid"]::placeholder {

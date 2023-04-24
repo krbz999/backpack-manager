@@ -1,4 +1,4 @@
-<form class="backpack-manager">
+<div class="content">
   <section class="currency">
     <header>
       <div class="header-name">{{localize "BACKPACK_MANAGER.Currencies"}}</div>
@@ -16,14 +16,17 @@
       {{/each}}
     </ol>
   </section>
-  <section class="stowed">
+
+  <div class="storages">
+
     {{#unless hideOwnInventory}}
-    <header class="stowed-header">
+    <header {{#if collapsed.bag}}class="collapsed"{{/if}} data-action="collapse" data-header="bag">
       <div class="header-name">{{localize 'BACKPACK_MANAGER.Stowed'}}: {{bag}}</div>
       {{#if showCapacity}}<div class="header-encumbrance">({{bagValue}} / {{bagMax}})</div>{{/if}}
     </header>
     {{/unless}}
-    <div class="stowed-content">
+
+    <div class="storage">
       {{#each stowed as |item|}}
       <div class="item">
         <div class="item-details" data-uuid="{{item.item.uuid}}">
@@ -46,15 +49,14 @@
       </div>
       {{/each}}
     </div>
-  </section>
 
-  {{#unless hideOwnInventory}}
-  <section class="inventory">
-    <header class="inventory-header">
+    {{#unless hideOwnInventory}}
+    <header {{#if collapsed.actor}}class="collapsed"{{/if}} data-action="collapse" data-header="actor">
       <div class="header-name">{{localize 'BACKPACK_MANAGER.Inventory'}}: {{actor}}</div>
       <div class="header-encumbrance">({{actorValue}} / {{actorMax}})</div>
     </header>
-    <div class="inventory-content">
+
+    <div class="storage">
       {{#each items as |item|}}
       <div class="item">
         <div class="item-details" data-uuid="{{item.item.uuid}}">
@@ -76,11 +78,13 @@
       </div>
       {{/each}}
     </div>
-  </section>
+
+  </div>
+
   <footer class="button-section">
-    <button name="close">
+    <button data-action="close">
       <i class="fa-solid fa-briefcase"></i> {{localize "Close"}}
     </button>
   </footer>
   {{/unless}}
-</form>
+</div>

@@ -6,6 +6,7 @@ export class BackpackManager extends Application {
     super(options);
     this.hideOwnInventory = (options.hideOwnInventory === true);
     this.object = object;
+    this._collapsed = {bag: false, actor: false};
   }
 
   static get defaultOptions() {
@@ -14,7 +15,7 @@ export class BackpackManager extends Application {
       template: `modules/${MODULE}/templates/${MODULE}.hbs`,
       height: 750,
       classes: [MODULE],
-      scrollY: [".stowed-content", ".inventory-content"],
+      scrollY: [".storage"],
       resizable: true
     });
   }
@@ -85,6 +86,7 @@ export class BackpackManager extends Application {
     data.bag = this.bag.name;
     data.actor = this.actor.name;
     data.hideOwnInventory = this.hideOwnInventory;
+    data.collapsed = this._collapsed;
 
     if (game.system.id === "dnd5e") {
       // CAPACITY
@@ -121,16 +123,18 @@ export class BackpackManager extends Application {
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
+    html[0].querySelector("[data-action='close']").addEventListener("click", this.close.bind(this));
+    html[0].querySelectorAll("[data-action='collapse']").forEach(n => n.addEventListener("click", this._handleCollapse.bind(this)));
     html[0].addEventListener("click", async (event) => {
       const a = event.target.closest("a");
       if (!a) return;
-      const form = a.closest("form.backpack-manager");
-      form.style.pointerEvents = "none";
+      const app = a.closest(".backpack-manager .content");
+      app.style.pointerEvents = "none";
       const type = a.dataset.type ?? a.dataset.action;
 
       if (["takeCurrency", "stowCurrency"].includes(type)) {
         await this._adjustCurrency(event);
-        form.style.pointerEvents = "";
+        app.style.pointerEvents = "";
         return;
       }
 
@@ -143,36 +147,28 @@ export class BackpackManager extends Application {
 
       if (!type) {
         item.sheet.render(true);
-        form.style.pointerEvents = "";
+        app.style.pointerEvents = "";
         return;
       }
 
       else if (type === "more") {
         const newValue = ctrlKey ? value + 50 : shiftKey ? value + 5 : value + 1;
         qtyField.value = Math.clamped(newValue, 1, max);
-        form.style.pointerEvents = "";
+        app.style.pointerEvents = "";
         return;
       }
 
       else if (type === "less") {
         const newValue = ctrlKey ? value - 50 : shiftKey ? value - 5 : value - 1;
         qtyField.value = Math.clamped(newValue, 1, max);
-        form.style.pointerEvents = "";
+        app.style.pointerEvents = "";
         return;
       }
 
       else if (type === "retrieve") {
-        // move item from this actor to the owner.
-        const itemData = item.toObject();
-        setSystemSpecificValues(itemData, {
-          quantity: value, target: this.actor, src: this.bag
-        });
-
-        const [c] = await this.actor.createEmbeddedDocuments("Item", [itemData]);
-        if (c) {
-          if (value === max) await item.delete({itemsWithSpells5e: {alsoDeleteChildSpells: true}});
-          else await updateSystemSpecificQuantity(item, max, value);
-          form.style.pointerEvents = "";
+        const success = await this._handleItemTransfer(this.bag, this.actor, item, value, max);
+        if (success) {
+          app.style.pointerEvents = "";
           return;
         }
       }
@@ -180,27 +176,19 @@ export class BackpackManager extends Application {
       else if (type === "delete") {
         // delete the item from the bag.
         await item.deleteDialog({itemsWithSpells5e: {alsoDeleteChildSpells: true}});
-        form.style.pointerEvents = "";
+        app.style.pointerEvents = "";
         return;
       }
 
       else if (type === "stow") {
-        // stow item in bag.
-        const itemData = item.toObject();
-        setSystemSpecificValues(itemData, {
-          quantity: value, target: this.bag, src: this.actor
-        });
-
-        const [c] = await this.bag.createEmbeddedDocuments("Item", [itemData]);
-        if (c) {
-          if (value === max) await item.delete({itemsWithSpells5e: {alsoDeleteChildSpells: true}});
-          else await updateSystemSpecificQuantity(item, max, value);
-          form.style.pointerEvents = "";
+        const success = await this._handleItemTransfer(this.actor, this.bag, item, value, max);
+        if (success) {
+          app.style.pointerEvents = "";
           return;
         }
       }
 
-      form.style.pointerEvents = "";
+      app.style.pointerEvents = "";
       return;
     });
   }
@@ -263,5 +251,49 @@ export class BackpackManager extends Application {
       {_id: this.actor.id, [`system.currency.${data.denom}`]: actorCoin - newValue}
     ];
     return Actor.updateDocuments(updates);
+  }
+
+  /**
+   * Transfer item or stack from one actor to anoter.
+   * @param {Actor} sourceActor     The source actor who has the item.
+   * @param {Actor} targetActor     The target actor to receive the item.
+   * @param {Item} item             The item or stack to transfer.
+   * @param {number} value          The quantity to transfer.
+   * @param {number} max            The maximum stack size.
+   * @returns {boolean}             Whether transfer was completed.
+   */
+  async _handleItemTransfer(sourceActor, targetActor, item, value, max) {
+    const itemData = item.toObject();
+    const create = await setSystemSpecificValues(itemData, {
+      quantity: value,
+      target: targetActor,
+      src: sourceActor
+    });
+
+    // Create new item if not otherwise handled.
+    let mayDelete = false;
+    if (!create) mayDelete = true;
+    else {
+      const [c] = await targetActor.createEmbeddedDocuments("Item", [itemData]);
+      if (c) mayDelete = true;
+    }
+
+    if (mayDelete) {
+      if (value === max) await item.delete({itemsWithSpells5e: {alsoDeleteChildSpells: true}});
+      else await updateSystemSpecificQuantity(item, max, value);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Toggle and save 'collapsed' class on headers when clicked.
+   * @param {PointerEvent} event      The initiating click event.
+   */
+  _handleCollapse(event) {
+    const target = event.currentTarget;
+    target.classList.toggle("collapsed");
+    const has = target.classList.contains("collapsed");
+    this._collapsed[target.dataset.header] = has;
   }
 }
