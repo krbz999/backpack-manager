@@ -14,7 +14,7 @@ export function isValidItem(item) {
 
 
   // it must not be setup with this module:
-  const uuid = item.getFlag(MODULE, "containerActorUuid");
+  const uuid = item.flags[MODULE]?.containerActorUuid;
   if (!uuid) return true;
 
   const backpack = fromUuidSync(uuid);
