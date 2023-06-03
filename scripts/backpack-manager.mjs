@@ -123,8 +123,11 @@ export class BackpackManager extends Application {
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
-    html[0].querySelector("[data-action='close']").addEventListener("click", this.close.bind(this));
-    html[0].querySelectorAll("[data-action='collapse']").forEach(n => n.addEventListener("click", this._handleCollapse.bind(this)));
+    html[0].querySelectorAll("[data-action]").forEach(n => {
+      const action = n.dataset.action;
+      if (action === "close") n.addEventListener("click", this.close.bind(this));
+      else if (action === "collapse") n.addEventListener("click", this._handleCollapse.bind(this));
+    });
     html[0].addEventListener("click", async (event) => {
       const a = event.target.closest("a");
       if (!a) return;
