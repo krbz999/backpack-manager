@@ -1,0 +1,16 @@
+{
+  "BACKPACK_MANAGER.AdjustCurrency": "Währung anpassen",
+  "BACKPACK_MANAGER.AdjustCurrencyContentAmounts": "Du hast {actor} {denom}, und im Rucksack sind {bag}.",
+  "BACKPACK_MANAGER.AdjustCurrencyLabelStow": "Währung verstauen",
+  "BACKPACK_MANAGER.AdjustCurrencyLabelTake": "Währung entnehmen",
+  "BACKPACK_MANAGER.AdjustCurrencyStow": "Menge zum Verstauen",
+  "BACKPACK_MANAGER.AdjustCurrencyTake": "Menge zum Entnehmen",
+  "BACKPACK_MANAGER.CannotUseSelf": "Du kannst dich nicht selbst als Rucksack nutzen.",
+  "BACKPACK_MANAGER.Currencies": "Währungen",
+  "BACKPACK_MANAGER.Inventory": "Inventar",
+  "BACKPACK_MANAGER.NotOwner": "Keine ausreichenden Rechte auf Behälter-Akteur.",
+  "BACKPACK_MANAGER.PlaceUuidHere": "UUID eines Akteurs hier platzieren",
+  "BACKPACK_MANAGER.Stowed": "Verstaut",
+  "BACKPACK_MANAGER.Title": "{bag} von {actor}",
+  "BACKPACK_MANAGER.UuidActorNotFound": "Eine UUID wurde in {item} gefunden, aber der zugehörige Akteur fehlt."
+}
