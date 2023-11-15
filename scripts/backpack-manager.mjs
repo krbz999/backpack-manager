@@ -9,6 +9,7 @@ export class BackpackManager extends Application {
     this._collapsed = {bag: false, actor: false};
   }
 
+  /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       width: 450,
@@ -20,6 +21,7 @@ export class BackpackManager extends Application {
     });
   }
 
+  /** @override */
   get id() {
     return `${MODULE}-${this.object.backpack.uuid.replaceAll(".", "-")}`;
   }
@@ -213,7 +215,7 @@ export class BackpackManager extends Application {
   /**
    * Adjust the currency on the viewing Actor and the Backpack Actor.
    * @param {PointerEvent} event      The initiating click event.
-   * @returns {Actor[]}               The two updated Actor documents.
+   * @returns {Promise<Actor[]>}      The two updated Actor documents.
    */
   async _adjustCurrency(event) {
     const data = event.target.closest(".currency-item").dataset;
@@ -258,12 +260,12 @@ export class BackpackManager extends Application {
 
   /**
    * Transfer item or stack from one actor to anoter.
-   * @param {Actor} sourceActor     The source actor who has the item.
-   * @param {Actor} targetActor     The target actor to receive the item.
-   * @param {Item} item             The item or stack to transfer.
-   * @param {number} value          The quantity to transfer.
-   * @param {number} max            The maximum stack size.
-   * @returns {boolean}             Whether transfer was completed.
+   * @param {Actor} sourceActor       The source actor who has the item.
+   * @param {Actor} targetActor       The target actor to receive the item.
+   * @param {Item} item               The item or stack to transfer.
+   * @param {number} value            The quantity to transfer.
+   * @param {number} max              The maximum stack size.
+   * @returns {Promise<boolean>}      Whether transfer was completed.
    */
   async _handleItemTransfer(sourceActor, targetActor, item, value, max) {
     const itemData = item.toObject();

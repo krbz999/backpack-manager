@@ -2,13 +2,11 @@
   min-width: 400px;
   min-height: 400px;
 }
-
 .backpack-manager .content {
   overflow: hidden;
   display: flex;
   flex-direction: column;
 }
-
 .backpack-manager .content header {
   height: 28px;
   font-weight: bold;
@@ -22,30 +20,25 @@
   justify-content: space-between;
   grid-template-columns: auto auto;
 }
-
 .backpack-manager .storages {
   display: flex;
   flex-direction: column;
   overflow: hidden;
   height: 100%;
 }
-
 .backpack-manager [data-action="collapse"] {
   cursor: pointer;
 }
-
 .backpack-manager .storage {
   flex: 1;
   overflow: auto;
   transition: 200ms;
 }
-
 .backpack-manager .collapsed + .storage {
   flex: 0;
   height: 0;
   overflow: hidden;
 }
-
 .backpack-manager .content .storage .item {
   display: flex;
   justify-content: space-between;
@@ -54,63 +47,52 @@
   font-size: 1.1em;
   gap: 1em;
 }
-
 .backpack-manager .content .storage .item:nth-child(2n-1) {
   background: #11643b21;
 }
-
 .backpack-manager .content .item .item-details {
   white-space: nowrap;
   overflow-x: hidden;
   text-overflow: ellipsis;
 }
-
 .backpack-manager .content .item img {
   border: none;
   vertical-align: bottom;
   height: 1.3em;
 }
-
 .backpack-manager .content .item .functions {
   display: flex;
   white-space: nowrap;
   gap: 1em;
   min-width: fit-content;
 }
-
 .backpack-manager .content .item .current {
   max-width: 3em;
   text-align: center;
   height: 100%;
   border-radius: 6px;
 }
-
 .backpack-manager .content .button-section {
   display: flex;
   border-top: 1px solid var(--color-border-light-tertiary);
 }
-
 .backpack-manager [data-action="close"] {
   margin: 0.5em;
 }
-
 [name="flags.backpack-manager.containerActorUuid"]::placeholder {
   font-style: italic;
 }
-
 .backpack-manager .currency-content {
   display: flex;
   justify-content: space-around;
   padding: 0;
 }
-
 .backpack-manager .currency-content > * {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
 }
-
 .backpack-manager .currency-content .item.currency {
   display: flex;
   align-items: center;

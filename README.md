@@ -37,6 +37,3 @@ Currency can be exchanged with the backpack actor.
 - Attunement state, equipped status, and proficiency are all adjusted as if you had dropped the item onto the actor sheet.
 - The quantity of the item is adjusted by the choices made in the interface itself.
 No other changes are made to the items.
-
-<h1>Compatibility</h1>
-<p>You should not expect this module to work with modules that overhaul or destroy core roll behaviour, particularly WIRE, RSR, and MIDI. These modules are unsupported, and any compatiblity is nothing but a happy accident.</p>

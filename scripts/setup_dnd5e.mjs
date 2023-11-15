@@ -2,19 +2,18 @@ import {BackpackManager} from "./backpack-manager.mjs";
 import {MODULE} from "./constants.mjs";
 
 export function setup_dnd5e() {
-  Hooks.on("renderItemSheet", ({object: item}, html) => {
-    if (item.type !== "backpack") return;
+  Hooks.on("renderItemSheet", (sheet, html) => {
+    if (sheet.item.type !== "backpack") return;
     const label = html[0].querySelector("[name='system.capacity.weightless']").closest("label");
 
     const name = `flags.${MODULE}.containerActorUuid`;
-    const value = item.flags[MODULE]?.containerActorUuid ?? "";
+    const value = sheet.item.flags[MODULE]?.containerActorUuid ?? "";
     const div = document.createElement("DIV");
     div.innerHTML = `
-    <label data-tooltip="BACKPACK_MANAGER.PlaceUuidHere">
-      ${game.i18n.localize("ITEM.TypeContainer")}:
-    </label>
-    <input type="text" name="${name}" value="${value}" placeholder="Actor.a1s2d3f4g5h6j7k8...">`;
+    <label data-tooltip="BACKPACK_MANAGER.PlaceUuidHere">${game.i18n.localize("ITEM.TypeContainer")}:</label>
+    <input type="text" name="${name}" value="${value}" placeholder="Actor.${foundry.utils.randomID()}">`;
     label.after(...div.children);
+    sheet.setPosition();
   });
 
   Hooks.on("dnd5e.preUseItem", (item) => {

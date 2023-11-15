@@ -1,17 +1,18 @@
 {
   "id": "backpack-manager",
   "title": "Backpack Manager",
-  "version": "11.0.2",
+  "version": "11.0.3",
   "authors": [
     {
       "name": "Zhell",
       "url": "https://github.com/krbz999",
-      "discord": "Zhell#9201",
-      "ko-fi": "https://ko-fi.com/zhell"
+      "discord": "zhell9201",
+      "ko-fi": "https://ko-fi.com/zhell",
+      "patreon": "https://patreon.com/zhell"
     }
   ],
   "compatibility": {
-    "minimum": "10",
+    "minimum": "11",
     "maximum": "11",
     "verified": "11"
   },
@@ -26,8 +27,10 @@
       {
         "id": "dnd5e",
         "type": "system",
-        "manifest": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/system.json",
-        "compatibility": {}
+        "compatibility": {
+          "minimum": "2.3.0",
+          "maximum": "2.4.9"
+        }
       }
     ]
   },
@@ -48,6 +51,6 @@
   "url": "https://github.com/krbz999/backpack-manager",
   "license": "https://raw.githubusercontent.com/krbz999/backpack-manager/main/LICENSE",
   "manifest": "https://github.com/krbz999/backpack-manager/releases/latest/download/module.json",
-  "download": "https://github.com/krbz999/backpack-manager/releases/download/v11.0.2/module.zip",
+  "download": "https://github.com/krbz999/backpack-manager/releases/download/v11.0.3/module.zip",
   "description": "A helpful UI to manage external actors that act as backpacks."
 }
