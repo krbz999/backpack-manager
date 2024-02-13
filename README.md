@@ -1,3 +1,5 @@
+Interested in following along with development of any of my modules? Join the [Discord server](https://discord.gg/QAG8eWABGT). 
+
 # Backpack Manager
 
 Make container management easy for your players. This module is useful for you if you:
